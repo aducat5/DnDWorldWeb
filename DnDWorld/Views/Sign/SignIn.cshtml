@@ -1,9 +1,30 @@
-﻿
+﻿@model User
 @{
     ViewBag.Title = "Giriş Yap";
 }
 <section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/banner_bg.png)" );">
     <div class="container">
+        <div class="row">
+            <div class="container">
+                @if (Request.QueryString["regState"] != null)
+                {
+
+                    <div class="alert alert-primary alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Kayıt Başarılı. e-posta adresi ve şifrenizle giriş yapabilirsiniz.
+                    </div>
+                }
+
+                @if (ViewBag.LoginState != null)
+                {
+                    <div class="@ViewBag.AlertState alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @ViewBag.LoginState
+                    </div>
+
+                }
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-10 col-xl-9 mx-auto">
                 <div class="card card-signin flex-row my-5">
@@ -12,27 +33,26 @@
                     </div>
                     <div class="card-body bg-dark">
                         <h5 class="card-title text-center">Register</h5>
-                        <form class="form-signin">
-
+                        @using (Html.BeginForm("SignIn", "Sign", FormMethod.Post, new { @class = "form-signin" }))
+                        {
                             <div class="form-label-group">
-                                <input type="text" id="inputUserame" class="form-control" placeholder="Email Adresi" required autofocus>
+                                <input type="text" id="inputUserame" name="txtUserName" class="form-control" placeholder="Email Adresi" required autofocus>
                                 <br />
                             </div>
 
                             <hr>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Parola" required>
+                                <input type="password" id="inputPassword" name="txtPassword" class="form-control" placeholder="Parola" required>
                                 <br />
                             </div>
 
-                            <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Girişl Yap</button>
+                            <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Giriş Yap</button>
 
                             <hr class="my-4">
                             <button class="btn btn-lg btn-google btn-block text-uppercase" disabled type="submit"><i class="fab fa-google mr-2"></i> Google ile Giriş Yap</button>
                             <button class="btn btn-lg btn-facebook btn-block text-uppercase" disabled type="submit"><i class="fab fa-facebook-f mr-2"></i>Facebook ile Giriş Yap</button>
-
-                        </form>
+                        }
                     </div>
                 </div>
             </div>

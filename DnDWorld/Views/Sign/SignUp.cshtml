@@ -1,49 +1,63 @@
-﻿
+﻿@model User
 @{
     ViewBag.Title = "Kayıt Ol";
 }
-    <section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/banner_bg.png)");" >
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 col-xl-9 mx-auto">
-                    <div class="card card-signin flex-row my-5">
-                        <div class="card-img-left d-none d-md-flex">
-                            <!-- Background image for card set in CSS! -->
-                        </div>
-                        <div class="card-body bg-dark">
-                            <h5 class="card-title text-center">Register</h5>
-                            <form class="form-signin">
-                                <div class="form-label-group">
-                                    <input type="text" id="inputUserame" class="form-control" placeholder="Kullanıcı Adı" required autofocus>
-                                    <br />
-                                </div>
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/banner_bg.png)" );">
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.RegState != null)
+            {
+                <div class="container">
 
-                                <div class="form-label-group">
-                                    <input type="email" id="inputEmail" class="form-control" placeholder="Email Adresi" required>
-                                    <br />
-                                </div>
+                    <div class="@ViewBag.AlertState alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @ViewBag.RegState
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card card-signin flex-row my-5">
+                    <div class="card-img-left d-none d-md-flex">
+                        <!-- Background image for card set in CSS! -->
+                    </div>
+                    <div class="card-body bg-dark">
+                        <h5 class="card-title text-center">Register</h5>
 
-                                <hr>
+                        @using (Html.BeginForm("SignUp", "Sign", FormMethod.Post, new { @class = "form-signin" }))
+                        {
+                            <div class="form-label-group">
+                                @Html.TextBoxFor(m => m.Fullname, new { placeholder = "Adınız", @class = "form-control", id = "inputUserame", required = "", autofocus = "" })
+                                <br />
+                            </div>
 
-                                <div class="form-label-group">
-                                    <input type="password" id="inputPassword" class="form-control" placeholder="Parola" required>
-                                    <br />
-                                </div>
+                            <div class="form-label-group">
+                                @Html.TextBoxFor(m => m.Email, new { placeholder = "Email Adresiniz", @class = "form-control", id = "inputEmail", required = "", type = "email" })
+                                <br />
+                            </div>
 
-                                <div class="form-label-group">
-                                    <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Parolayı Doğrula" required>
-                                    <br />
-                                </div>
+                            <hr>
 
-                                <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Kayıt Ol</button>
-                                <a class="d-block text-center mt-2 small" href="@Url.Action("SignIn","Sign")">Girişl Yap</a>
-                                <hr class="my-4">
-                                <button class="btn btn-lg btn-google btn-block text-uppercase" disabled type="submit"><i class="fab fa-google mr-2"></i> Google ile Kayıt Ol</button>
-                                <button class="btn btn-lg btn-facebook btn-block text-uppercase" disabled type="submit"><i class="fab fa-facebook-f mr-2"></i>Facebook ile Kayıt Ol</button>
-                            </form>
-                        </div>
+                            <div class="form-label-group">
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Parolanız", @class = "form-control", id = "inputPassword", required = "" })
+                                <br />
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Parolayı Doğrula" required>
+                                <br />
+                            </div>
+
+                            <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Kayıt Ol</button>
+                            <a class="d-block text-center mt-2 small" href="@Url.Action("SignIn", "Sign")">Girişl Yap</a>
+                            <hr class="my-4">
+                            <button class="btn btn-lg btn-google btn-block text-uppercase" disabled type="submit"><i class="fab fa-google mr-2"></i> Google ile Kayıt Ol</button>
+                            <button class="btn btn-lg btn-facebook btn-block text-uppercase" disabled type="submit"><i class="fab fa-facebook-f mr-2"></i>Facebook ile Kayıt Ol</button>
+                        }
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
