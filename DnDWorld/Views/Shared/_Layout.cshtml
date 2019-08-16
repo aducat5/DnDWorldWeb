@@ -1,22 +1,21 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="~/Contents/img/favicon.png">
-    <link rel="stylesheet" href="~/Contents/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/Contents/css/animate.css">
-    <link rel="stylesheet" href="~/Contents/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/Contents/css/all.css">
-    <link rel="stylesheet" href="~/Contents/css/flaticon.css">
-    <link rel="stylesheet" href="~/Contents/css/themify-icons.css">
-    <link rel="stylesheet" href="~/Contents/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/Contents/css/slick.css">
-    <link rel="stylesheet" href="~/Contents/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/animate.css">
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/css/all.css">
+    <link rel="stylesheet" href="~/Content/css/flaticon.css">
+    <link rel="stylesheet" href="~/Content/css/themify-icons.css">
+    <link rel="stylesheet" href="~/Content/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Content/css/slick.css">
+    <link rel="stylesheet" href="~/Content/css/style.css">
 </head>
 <body>
+
     <div class="body_bg">
         <!--::header part start::-->
         <header class="main_menu single_page_menu">
@@ -24,7 +23,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
-                            <a class="navbar-brand" href="index.html"> <img src="~/Contents/img/logo.png" alt="logo"> </a>
+                            <a class="navbar-brand" href="@Url.Action("Index","Home")"> <img src="~/Content/img/logo.png" alt="logo"> </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                     aria-expanded="false" aria-label="Toggle navigation">
@@ -54,8 +53,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="#" class="genric-btn danger d-none d-sm-block">Kayıt Ol</a>
-                            <a href="#" class="genric-btn danger d-sm-block">Giriş Yap</a>
+                            <a href="@Url.Action("SignUp", "Sign")" class="genric-btn danger d-none d-sm-block">Kayıt Ol</a>
+                            <a href="@Url.Action("SignIn", "Sign")" class="genric-btn danger d-sm-block">Giriş Yap</a>
                         </nav>
                     </div>
                 </div>
@@ -68,7 +67,7 @@
             @RenderBody()
         </div>
 
-        
+
         <!--::footer_part start::-->
         <footer class="footer_part">
             <div class="footer_top">
@@ -76,7 +75,7 @@
                     <div class="row">
                         <div class="col-sm-6 col-lg-3">
                             <div class="single_footer_part">
-                                <a href="index.html" class="footer_logo_iner"> <img src="img/logo.png" alt="#"> </a>
+                                <a href="index.html" class="footer_logo_iner"> <img src="~/Content/img/logo.png" alt="#"> </a>
                                 <p>
                                     Heaven fruitful doesn't over lesser days appear creeping seasons so behold bearing
                                     days
@@ -171,30 +170,23 @@
 
 
     <!-- jquery plugins here-->
-    <script src="~/Contents/js/jquery-1.12.1.min.js"></script>
-    <!-- popper js -->
-    <script src="~/Contents/js/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="~/Contents/js/bootstrap.min.js"></script>
-    <!-- easing js -->
-    <script src="~/Contents/js/jquery.magnific-popup.js"></script>
-    <!-- swiper js -->
-    <script src="~/Contents/js/swiper.min.js"></script>
-    <!-- swiper js -->
-    <script src="~/Contents/js/masonry.pkgd.js"></script>
-    <!-- particles js -->
-    <script src="~/Contents/js/owl.carousel.min.js"></script>
-    <script src="~/Contents/js/jquery.nice-select.min.js"></script>
-    <!-- slick js -->
-    <script src="~/Contents/js/slick.min.js"></script>
-    <script src="~/Contents/js/jquery.counterup.min.js"></script>
-    <script src="~/Contents/js/waypoints.min.js"></script>
-    <script src="~/Contents/js/contact.js"></script>
-    <script src="~/Contents/js/jquery.ajaxchimp.min.js"></script>
-    <script src="~/Contents/js/jquery.form.js"></script>
-    <script src="~/Contents/js/jquery.validate.min.js"></script>
-    <script src="~/Contents/js/mail-script.js"></script>
-    <!-- custom js -->
-    <script src="~/Contents/js/custom.js"></script>
+    <script src="~/Content/js/jquery-1.12.1.min.js"></script>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/jquery.magnific-popup.js"></script>
+    <script src="~/Content/js/swiper.min.js"></script>
+    <script src="~/Content/js/masonry.pkgd.js"></script>
+    <script src="~/Content/js/owl.carousel.min.js"></script>
+    <script src="~/Content/js/jquery.nice-select.min.js"></script>
+    <script src="~/Content/js/slick.min.js"></script>
+    <script src="~/Content/js/jquery.counterup.min.js"></script>
+    <script src="~/Content/js/waypoints.min.js"></script>
+    <script src="~/Content/js/contact.js"></script>
+    <script src="~/Content/js/jquery.ajaxchimp.min.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/jquery.validate.min.js"></script>
+    <script src="~/Content/js/mail-script.js"></script>
+
+    <script src="~/Content/js/custom.js"></script>
 </body>
 </html>
