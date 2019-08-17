@@ -90,7 +90,7 @@
                                 @foreach (Universe universe in Model)
                                 {
                                     <div class="single_client_logo">
-                                        <a class="btn btn-danger" href="@Url.Action("View", "Universe", new { id = universe.UniverseID })">
+                                        <a class="btn btn-danger" href="@Url.Action("ViewUniverse", "Universe", new { id = universe.UniverseID })">
                                             @if (universe.IsPublic)
                                             {
                                                 <i class="fa fa-globe-europe fa-fw"></i>

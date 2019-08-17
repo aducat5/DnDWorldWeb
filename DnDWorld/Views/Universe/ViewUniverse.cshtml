@@ -1,0 +1,27 @@
+﻿@model Universe
+@{
+    if (Model != null)
+    {
+        ViewBag.Title = Model.Fullname;
+    }
+}
+<section class="section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="align-self-center">
+                    @if (Model != null)
+                    {
+                        @Model.Fullname
+                    }
+                    isimli evrene hoşgeldin.
+                </h1>
+                <p>
+                    Görmeye çalıştığınız sayfa ya hiç var olmadı ya da yüzüğü taktı. Sizi iyisi mi <a href="/Home/Index">anasayfa</a>ya alalım. Üye değilsen bir de <a href="/Sign/SignUp">üye ol</a>up <a href="/Sign/SignIn">giriş yap</a>tıktan sonra girmeyi deneyebilirsiniz. Belki üyelere özel bir içeriktir.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
