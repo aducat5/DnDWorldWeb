@@ -15,7 +15,7 @@ namespace DnDWorld.Models
                 return true;
             else
             {
-                httpContext.Response.Redirect("/Index/Home");
+                httpContext.Response.Redirect("/Home/Index");
                 return false;
             }
         }

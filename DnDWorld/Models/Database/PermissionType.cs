@@ -7,25 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Class
+    public partial class PermissionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
+        public PermissionType()
         {
-            this.CharacterClasses = new HashSet<CharacterClass>();
+            this.Permissions = new HashSet<Permission>();
         }
     
-        public int ClassID { get; set; }
-        public string Fullname { get; set; }
-        public string Description { get; set; }
-        public string PicturePath { get; set; }
+        public int PermissionTypeID { get; set; }
+        public string PermissionType1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CharacterClass> CharacterClasses { get; set; }
+        public virtual ICollection<Permission> Permissions { get; set; }
     }
 }

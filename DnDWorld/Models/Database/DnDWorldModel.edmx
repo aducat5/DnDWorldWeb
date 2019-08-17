@@ -61,6 +61,13 @@
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="PicturePath" Type="text" />
         </EntityType>
+        <EntityType Name="ContentTypes">
+          <Key>
+            <PropertyRef Name="ContentTypeID" />
+          </Key>
+          <Property Name="ContentTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContentType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Descriptions">
           <Key>
             <PropertyRef Name="DescriptionID" />
@@ -104,6 +111,24 @@
           <Property Name="LoreTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LoreTypeDescription" Type="text" Nullable="false" />
         </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionTypeID" Type="int" Nullable="false" />
+          <Property Name="GrantingUserID" Type="int" Nullable="false" />
+          <Property Name="GrantedUserID" Type="int" Nullable="false" />
+          <Property Name="ContentTypeID" Type="int" Nullable="false" />
+          <Property Name="ContentID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PermissionTypes">
+          <Key>
+            <PropertyRef Name="PermissionTypeID" />
+          </Key>
+          <Property Name="PermissionTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Planets">
           <Key>
             <PropertyRef Name="PlanetID" />
@@ -139,6 +164,7 @@
           <Property Name="UniverseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OwnerID" Type="int" Nullable="false" />
+          <Property Name="IsPublic" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserLogins">
           <Key>
@@ -294,6 +320,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Permissions_ContentTypes">
+          <End Role="ContentTypes" Type="Self.ContentTypes" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContentTypes">
+              <PropertyRef Name="ContentTypeID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="ContentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_PermissionTypes">
+          <End Role="PermissionTypes" Type="Self.PermissionTypes" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionTypes">
+              <PropertyRef Name="PermissionTypeID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="PermissionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="GrantingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="GrantedUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Planets_Universes">
           <End Role="Universes" Type="Self.Universes" Multiplicity="1" />
           <End Role="Planets" Type="Self.Planets" Multiplicity="*" />
@@ -361,11 +435,14 @@
           <EntitySet Name="CharacterItems" EntityType="Self.CharacterItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Characters" EntityType="Self.Characters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContentTypes" EntityType="Self.ContentTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Descriptions" EntityType="Self.Descriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DescriptionTypes" EntityType="Self.DescriptionTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lores" EntityType="Self.Lores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoreTypes" EntityType="Self.LoreTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PermissionTypes" EntityType="Self.PermissionTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Planets" EntityType="Self.Planets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Races" EntityType="Self.Races" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -415,6 +492,22 @@
           <AssociationSet Name="FK_Lores_Users" Association="Self.FK_Lores_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Lores" EntitySet="Lores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_ContentTypes" Association="Self.FK_Permissions_ContentTypes">
+            <End Role="ContentTypes" EntitySet="ContentTypes" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_PermissionTypes" Association="Self.FK_Permissions_PermissionTypes">
+            <End Role="PermissionTypes" EntitySet="PermissionTypes" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Users" Association="Self.FK_Permissions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Users1" Association="Self.FK_Permissions_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Permissions" EntitySet="Permissions" />
           </AssociationSet>
           <AssociationSet Name="FK_Planets_Universes" Association="Self.FK_Planets_Universes">
             <End Role="Universes" EntitySet="Universes" />
@@ -511,6 +604,14 @@
           <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CharacterClasses" Relationship="Self.FK_CharacterClasses_Classes" FromRole="Classes" ToRole="CharacterClasses" />
         </EntityType>
+        <EntityType Name="ContentType">
+          <Key>
+            <PropertyRef Name="ContentTypeID" />
+          </Key>
+          <Property Name="ContentTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContentType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permissions_ContentTypes" FromRole="ContentTypes" ToRole="Permissions" />
+        </EntityType>
         <EntityType Name="Description">
           <Key>
             <PropertyRef Name="DescriptionID" />
@@ -561,6 +662,29 @@
           <Property Name="LoreTypeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Lores" Relationship="Self.FK_Lores_LoreTypes" FromRole="LoreTypes" ToRole="Lores" />
         </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionTypeID" Type="Int32" Nullable="false" />
+          <Property Name="GrantingUserID" Type="Int32" Nullable="false" />
+          <Property Name="GrantedUserID" Type="Int32" Nullable="false" />
+          <Property Name="ContentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ContentID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContentType" Relationship="Self.FK_Permissions_ContentTypes" FromRole="Permissions" ToRole="ContentTypes" />
+          <NavigationProperty Name="PermissionType" Relationship="Self.FK_Permissions_PermissionTypes" FromRole="Permissions" ToRole="PermissionTypes" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Permissions_Users" FromRole="Permissions" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Permissions_Users1" FromRole="Permissions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="PermissionType">
+          <Key>
+            <PropertyRef Name="PermissionTypeID" />
+          </Key>
+          <Property Name="PermissionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permissions_PermissionTypes" FromRole="PermissionTypes" ToRole="Permissions" />
+        </EntityType>
         <EntityType Name="Planet">
           <Key>
             <PropertyRef Name="PlanetID" />
@@ -599,6 +723,7 @@
           <Property Name="UniverseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OwnerID" Type="Int32" Nullable="false" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Planets" Relationship="Self.FK_Planets_Universes" FromRole="Universes" ToRole="Planets" />
           <NavigationProperty Name="User" Relationship="Self.FK_Universes_Users" FromRole="Universes" ToRole="Users" />
         </EntityType>
@@ -627,6 +752,8 @@
           <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Users" FromRole="Users" ToRole="Characters" />
           <NavigationProperty Name="Lores" Relationship="Self.FK_Lores_Users" FromRole="Users" ToRole="Lores" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permissions_Users" FromRole="Users" ToRole="Permissions" />
+          <NavigationProperty Name="Permissions1" Relationship="Self.FK_Permissions_Users1" FromRole="Users" ToRole="Permissions" />
           <NavigationProperty Name="Planets" Relationship="Self.FK_Planets_Users" FromRole="Users" ToRole="Planets" />
           <NavigationProperty Name="Universes" Relationship="Self.FK_Universes_Users" FromRole="Users" ToRole="Universes" />
           <NavigationProperty Name="UserLogins" Relationship="Self.FK_UserLogins_Users" FromRole="Users" ToRole="UserLogins" />
@@ -739,6 +866,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Permissions_ContentTypes">
+          <End Role="ContentTypes" Type="Self.ContentType" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContentTypes">
+              <PropertyRef Name="ContentTypeID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="ContentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Descriptions_DescriptionTypes">
           <End Role="DescriptionTypes" Type="Self.DescriptionType" Multiplicity="1" />
           <End Role="Descriptions" Type="Self.Description" Multiplicity="*" />
@@ -772,6 +911,42 @@
             </Principal>
             <Dependent Role="Lores">
               <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_PermissionTypes">
+          <End Role="PermissionTypes" Type="Self.PermissionType" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionTypes">
+              <PropertyRef Name="PermissionTypeID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="PermissionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="GrantingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permissions_Users1">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Permissions">
+              <PropertyRef Name="GrantedUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -830,11 +1005,14 @@
           <EntitySet Name="CharacterItems" EntityType="Self.CharacterItem" />
           <EntitySet Name="Characters" EntityType="Self.Character" />
           <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="ContentTypes" EntityType="Self.ContentType" />
           <EntitySet Name="Descriptions" EntityType="Self.Description" />
           <EntitySet Name="DescriptionTypes" EntityType="Self.DescriptionType" />
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="Lores" EntityType="Self.Lore" />
           <EntitySet Name="LoreTypes" EntityType="Self.LoreType" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="PermissionTypes" EntityType="Self.PermissionType" />
           <EntitySet Name="Planets" EntityType="Self.Planet" />
           <EntitySet Name="Races" EntityType="Self.Race" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
@@ -877,6 +1055,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
+          <AssociationSet Name="FK_Permissions_ContentTypes" Association="Self.FK_Permissions_ContentTypes">
+            <End Role="ContentTypes" EntitySet="ContentTypes" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
           <AssociationSet Name="FK_Descriptions_DescriptionTypes" Association="Self.FK_Descriptions_DescriptionTypes">
             <End Role="DescriptionTypes" EntitySet="DescriptionTypes" />
             <End Role="Descriptions" EntitySet="Descriptions" />
@@ -888,6 +1070,18 @@
           <AssociationSet Name="FK_Lores_Users" Association="Self.FK_Lores_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Lores" EntitySet="Lores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_PermissionTypes" Association="Self.FK_Permissions_PermissionTypes">
+            <End Role="PermissionTypes" EntitySet="PermissionTypes" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Users" Association="Self.FK_Permissions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Permissions" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permissions_Users1" Association="Self.FK_Permissions_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Permissions" EntitySet="Permissions" />
           </AssociationSet>
           <AssociationSet Name="FK_Planets_Universes" Association="Self.FK_Planets_Universes">
             <End Role="Universes" EntitySet="Universes" />
@@ -974,6 +1168,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ContentTypes">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.ContentType">
+              <MappingFragment StoreEntitySet="ContentTypes">
+                <ScalarProperty Name="ContentTypeID" ColumnName="ContentTypeID" />
+                <ScalarProperty Name="ContentType1" ColumnName="ContentType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Descriptions">
             <EntityTypeMapping TypeName="DnDWorldDBModel.Description">
               <MappingFragment StoreEntitySet="Descriptions">
@@ -1022,6 +1224,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.Permission">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+                <ScalarProperty Name="PermissionTypeID" ColumnName="PermissionTypeID" />
+                <ScalarProperty Name="GrantingUserID" ColumnName="GrantingUserID" />
+                <ScalarProperty Name="GrantedUserID" ColumnName="GrantedUserID" />
+                <ScalarProperty Name="ContentTypeID" ColumnName="ContentTypeID" />
+                <ScalarProperty Name="ContentID" ColumnName="ContentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionTypes">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.PermissionType">
+              <MappingFragment StoreEntitySet="PermissionTypes">
+                <ScalarProperty Name="PermissionTypeID" ColumnName="PermissionTypeID" />
+                <ScalarProperty Name="PermissionType1" ColumnName="PermissionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Planets">
             <EntityTypeMapping TypeName="DnDWorldDBModel.Planet">
               <MappingFragment StoreEntitySet="Planets">
@@ -1059,6 +1281,7 @@
                 <ScalarProperty Name="UniverseID" ColumnName="UniverseID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

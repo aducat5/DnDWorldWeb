@@ -7,23 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class AuthType
+    public partial class LoreType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AuthType()
+        public LoreType()
         {
-            this.UserLogins = new HashSet<UserLogin>();
+            this.Lores = new HashSet<Lore>();
         }
     
-        public int AuthTypeID { get; set; }
-        public string AuthTypeName { get; set; }
+        public int LoreTypeID { get; set; }
+        public string LoreTypeName { get; set; }
+        public string LoreTypeDescription { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserLogin> UserLogins { get; set; }
+        public virtual ICollection<Lore> Lores { get; set; }
     }
 }

@@ -7,19 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserLogin
+    public partial class CharacterClass
     {
-        public int UserLoginID { get; set; }
-        public int AuthTypeID { get; set; }
-        public int UserID { get; set; }
-        public string AuthLoginID { get; set; }
+        public int CharacterClassID { get; set; }
+        public int CharacterID { get; set; }
+        public int ClassID { get; set; }
     
-        public virtual AuthType AuthType { get; set; }
-        public virtual User User { get; set; }
+        public virtual Character Character { get; set; }
+        public virtual Class Class { get; set; }
     }
 }

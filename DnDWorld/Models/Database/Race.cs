@@ -7,24 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class LoreType
+    public partial class Race
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LoreType()
+        public Race()
         {
-            this.Lores = new HashSet<Lore>();
+            this.Characters = new HashSet<Character>();
         }
     
-        public int LoreTypeID { get; set; }
-        public string LoreTypeName { get; set; }
-        public string LoreTypeDescription { get; set; }
+        public int RaceID { get; set; }
+        public string Fullname { get; set; }
+        public string Description { get; set; }
+        public string PicturePath { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lore> Lores { get; set; }
+        public virtual ICollection<Character> Characters { get; set; }
     }
 }

@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CharacterItem
+    public partial class Planet
     {
-        public int CharacterItemID { get; set; }
-        public int CharacterID { get; set; }
-        public int ItemID { get; set; }
-        public int Quantity { get; set; }
+        public int PlanetID { get; set; }
+        public int UniverseID { get; set; }
+        public string Fullname { get; set; }
+        public int OwnerID { get; set; }
     
-        public virtual Character Character { get; set; }
-        public virtual Item Item { get; set; }
+        public virtual Universe Universe { get; set; }
+        public virtual User User { get; set; }
     }
 }

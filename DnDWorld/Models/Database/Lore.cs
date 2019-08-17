@@ -7,17 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class Lore
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int LoreID { get; set; }
+        public int LoreTypeID { get; set; }
+        public string LoreContent { get; set; }
+        public int AuthorID { get; set; }
+        public int UniverseID { get; set; }
+        public Nullable<int> PlanetID { get; set; }
+    
+        public virtual LoreType LoreType { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DnDWorld.Models;
+using DnDWorld.Models.Database;
 using DnDWorld.Utility;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,19 @@ namespace DnDWorld.Controllers
 {
     public class SignController : Controller
     {
+        DnDWorldDBEntities db = DBTools.GetDB();
+        /// <summary>
+        /// Checks User from DB and returns as User if there is user. Returns null if there is not.
+        /// </summary>
+        /// <param name="txtEmail"></param>
+        /// <param name="txtPassword"></param>
+        /// <returns></returns>
+        public User CheckUser(string txtEmail, string txtPassword)
+        {
+            User currentUser = null;
+            if (db.Users.Any(u => (u.Email == txtEmail && u.Password == txtPassword))) currentUser = db.Users.Where(u => (u.Email == txtEmail && u.Password == txtPassword)).FirstOrDefault();
+            return currentUser;
+        }
 
         [NonUserAuth]
         public ActionResult SignUp() => View();
@@ -19,25 +33,30 @@ namespace DnDWorld.Controllers
         [HttpPost]
         public ActionResult SignUp(User newUser)
         {
-            DnDWorldDBEntities db = DBTools.GetDB();
-
             newUser.CreateDate = DateTime.Now;
             newUser.UpdateDate = newUser.CreateDate;
             try
             {
-
-                db.Users.Add(newUser);
-                if (db.SaveChanges() > 0)
+                if (db.Users.Any(u => (u.Email == newUser.Email)))
                 {
-                    return RedirectToAction("SignIn", new { regState = "suc" });
-                }
-                else
-                {
-                    ViewBag.RegState = "Kayıt sırasında bir hata oluştu.";
+                    ViewBag.RegState = "Bu email zaten kullanımda.";
                     ViewBag.AlertState = "alert alert-danger";
                     return View();
                 }
-
+                else
+                {
+                    db.Users.Add(newUser);
+                    if (db.SaveChanges() > 0)
+                    {
+                        return RedirectToAction("SignIn", new { regState = "suc" });
+                    }
+                    else
+                    {
+                        ViewBag.RegState = "Kayıt sırasında bir hata oluştu.";
+                        ViewBag.AlertState = "alert alert-danger";
+                        return View();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -48,23 +67,21 @@ namespace DnDWorld.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(string txtUserName, string txtPassword)
+        public ActionResult SignIn(string txtEmail, string txtPassword)
         {
             DnDWorldDBEntities db = DBTools.GetDB();
 
-            if (db.Users.Any(u => (u.Email == txtUserName && u.Password == txtPassword)))
+
+            User currentUser = CheckUser(txtEmail, txtPassword);
+            if (currentUser != null)
             {
-                User currentUser = db.Users.Where(u => (u.Email == txtUserName && u.Password == txtPassword)).FirstOrDefault();
-
                 Session["user"] = currentUser;
-
                 return RedirectToAction("Index", "Home");
             }
             else
             {
                 ViewBag.LoginState = "Giriş başarısız oldu. Kullanıcı adı veya şifre yanlış.";
                 ViewBag.AlertState = "alert alert-danger";
-
                 return View();
             }
         }

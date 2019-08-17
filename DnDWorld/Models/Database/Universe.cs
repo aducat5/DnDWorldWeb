@@ -7,19 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Planet
+    public partial class Universe
     {
-        public int PlanetID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Universe()
+        {
+            this.Planets = new HashSet<Planet>();
+        }
+    
         public int UniverseID { get; set; }
         public string Fullname { get; set; }
         public int OwnerID { get; set; }
+        public bool IsPublic { get; set; }
     
-        public virtual Universe Universe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Planet> Planets { get; set; }
         public virtual User User { get; set; }
     }
 }

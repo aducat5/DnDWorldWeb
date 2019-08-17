@@ -1,0 +1,145 @@
+﻿@model List<Universe>
+@{
+    ViewBag.Title = "Yeni Evren";
+}
+
+@section pageStyles{
+    <link rel="stylesheet" href="~/Content/css/nice-select.css">
+}
+
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png)" );>
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.AlertMessage != null)
+            {
+                <div class="container">
+
+                    <div class="@ViewBag.AlertClass alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @ViewBag.AlertMessage
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-8 align-self-center">
+                <div class="section_tittle">
+                    <h2>Kendi evrenini oluştur</h2>
+                </div>
+
+                @using (Html.BeginForm("Create", "Universe", FormMethod.Post, null))
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <h3>Evreninin adı</h3>
+                            <input type="text" class="form-control" name="txtUniverseName" value="" />
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Erişim ayarları</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></i>
+                                </div>
+                                <div class="col-4">
+                                    <p id="publicSwitchLabel">Herkese Açık</p>
+                                </div>
+                                <div class="col-2" style="margin-top:6px">
+                                    <div class="single-element-widget">
+                                        <div class="switch-wrap">
+                                            <div class="primary-switch">
+                                                <input type="checkbox" value="true" id="publicSwitch" name="chkIsPublic" checked>
+                                                <label for="publicSwitch"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="position-absolute" style="margin-top:50px" id="toolTipContainer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-4">
+                            <button class="btn btn-danger" type="submit">
+                                Oluştur
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <br /><br /><br />
+        <hr class="bg-white" />
+        <h2>Daha önceki evrenlerin</h2>
+
+        @if (Model.Count > 0)
+        {
+
+            <section class="client_logo">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12">
+                            <div class="client_logo_slider owl-carousel d-flex justify-content-between">
+                                @foreach (Universe universe in Model)
+                                {
+                                    <div class="single_client_logo">
+                                        <a class="btn btn-danger" href="@Url.Action("View", "Universe", new { id = universe.UniverseID })">
+                                            @if (universe.IsPublic)
+                                            {
+                                                <i class="fa fa-globe-europe fa-fw"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-lock fa-fw"></i>
+                                            }
+                                            @universe.Fullname
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+        else
+        {
+            <p>Bakıyorum da hiçbir evren yaratmamışsın.</p>
+        }
+    </div>
+</section>
+
+@section pageScripts{
+    <script>
+        $publicIcon = $("#publicSwitchIcon");
+        $publicSwitch = $("#publicSwitch");
+        $publicLabel = $("#publicSwitchLabel");
+
+        $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+
+        $publicSwitch.on("click", function () {
+            if ($publicIcon.hasClass("fa-lock")) {
+                $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
+                $publicLabel.text("Herkese Açık");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+            } else {
+                $publicIcon.removeClass("fa-globe-asia").addClass("fa-lock");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin size özel olacağı anlamına gelir. Yalnızca siz görür ve genişletirsiniz.</div > ';
+                $publicLabel.text("Özel Evren");
+            }
+        });
+
+        $publicIcon.hover(function () {
+            $("#toolTipContainer").append($tooltip);
+        }, function () {
+            $("#toolTipContainer").html("");
+        });
+    </script>
+}

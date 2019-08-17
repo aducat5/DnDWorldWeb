@@ -7,21 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Lore
+    public partial class CharacterDescription
     {
-        public int LoreID { get; set; }
-        public int LoreTypeID { get; set; }
-        public string LoreContent { get; set; }
-        public int AuthorID { get; set; }
-        public int UniverseID { get; set; }
-        public Nullable<int> PlanetID { get; set; }
+        public int CharacterDescriptionID { get; set; }
+        public int CharacterID { get; set; }
+        public int DescriptionID { get; set; }
     
-        public virtual LoreType LoreType { get; set; }
-        public virtual User User { get; set; }
+        public virtual Character Character { get; set; }
+        public virtual Description Description { get; set; }
     }
 }

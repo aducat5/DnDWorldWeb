@@ -7,25 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Description
+    public partial class DescriptionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Description()
+        public DescriptionType()
         {
-            this.CharacterDescriptions = new HashSet<CharacterDescription>();
+            this.Descriptions = new HashSet<Description>();
         }
     
-        public int DescriptionID { get; set; }
         public int DescriptionTypeID { get; set; }
-        public string DescriptionContent { get; set; }
+        public string DescriptionTypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CharacterDescription> CharacterDescriptions { get; set; }
-        public virtual DescriptionType DescriptionType { get; set; }
+        public virtual ICollection<Description> Descriptions { get; set; }
     }
 }

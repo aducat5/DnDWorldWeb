@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Data.Entity;
@@ -31,11 +31,14 @@ namespace DnDWorld.Models
         public virtual DbSet<CharacterItem> CharacterItems { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
+        public virtual DbSet<ContentType> ContentTypes { get; set; }
         public virtual DbSet<Description> Descriptions { get; set; }
         public virtual DbSet<DescriptionType> DescriptionTypes { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Lore> Lores { get; set; }
         public virtual DbSet<LoreType> LoreTypes { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<PermissionType> PermissionTypes { get; set; }
         public virtual DbSet<Planet> Planets { get; set; }
         public virtual DbSet<Race> Races { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

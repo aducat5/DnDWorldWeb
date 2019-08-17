@@ -7,25 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Race
+    public partial class Class
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Race()
+        public Class()
         {
-            this.Characters = new HashSet<Character>();
+            this.CharacterClasses = new HashSet<CharacterClass>();
         }
     
-        public int RaceID { get; set; }
+        public int ClassID { get; set; }
         public string Fullname { get; set; }
         public string Description { get; set; }
         public string PicturePath { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Character> Characters { get; set; }
+        public virtual ICollection<CharacterClass> CharacterClasses { get; set; }
     }
 }

@@ -49,10 +49,10 @@
                                             Yaratımlar
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="blog.html"> Evrenini Yarat</a>
-                                            <a class="dropdown-item" href="single-blog.html"> Dünyanı Yarat</a>
-                                            <a class="dropdown-item" href="single-blog.html"> Karakterini Yarat</a>
-                                            <a class="dropdown-item" href="single-blog.html"> Maceranı Yarat</a>
+                                            @Html.ActionLink("Evrenini Yarat", "Create", "Universe", null, new { @class = "dropdown-item" })
+                                            @Html.ActionLink("Dünyanı Yarat", "Create", "World", null, new { @class = "dropdown-item" })
+                                            @Html.ActionLink("Karakterini Yarat", "Create", "Character", null, new { @class = "dropdown-item" })
+                                            @Html.ActionLink("Maceranı Yarat", "Create", "Campaign", null, new { @class = "dropdown-item" })
                                         </div>
                                     </li>
                                     <li class="nav-item">
@@ -69,14 +69,14 @@
                                     }
                                 </ul>
                             </div>
-                            @if (currentUser == null)
+                            @if (currentUser != null)
                             {
-                                <a href="@Url.Action("SignUp", "Sign")" class="genric-btn danger d-none d-sm-block">Kayıt Ol</a>
-                                <a href="@Url.Action("SignIn", "Sign")" class="genric-btn danger d-sm-block">Giriş Yap</a>
+                                <a href="@Url.Action("Profile", "View")" class="genric-btn danger d-none d-sm-block">@currentUser.Fullname</a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Profile", "View")" class="genric-btn danger d-none d-sm-block">@currentUser.Fullname</a>
+                                <a href="@Url.Action("SignUp", "Sign")" class="genric-btn danger d-none d-sm-block">Kayıt Ol</a>
+                                <a href="@Url.Action("SignIn", "Sign")" class="genric-btn danger d-sm-block">Giriş Yap</a>
                             }
                         </nav>
                     </div>
@@ -100,22 +100,14 @@
                             <div class="single_footer_part">
                                 <a href="index.html" class="footer_logo_iner"> <img src="~/Content/img/logo.png" alt="#"> </a>
                                 <p>
-                                    Heaven fruitful doesn't over lesser days appear creeping seasons so behold bearing
-                                    days
-                                    open
+                                    Devam eden maceranı yazdığın evrenle beraber oluşturup tarihini oluşturabilirsin. Karakterlerin efsanelere konuk olabilir, evreninin hikayesini oluşturabilirsin
                                 </p>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="single_footer_part">
-                                <h4>Contact Info</h4>
-                                <p>
-                                    Address : Your address goes
-                                    here, your demo address.
-                                    Bangladesh.
-                                </p>
-                                <p>Phone : +8880 44338899</p>
-                                <p>Email : info@colorlib.com</p>
+                                <h4>İletişim</h4>
+                                <p>Email : info@dndworld.net</p>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
@@ -165,10 +157,7 @@
                         <div class="col-lg-8">
                             <div class="copyright_text">
                                 <P>
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                    Copyright &copy;
-                                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    <script>document.write(new Date().getFullYear());</script> Tüm hakları saklıdır. DnDWorld
                                 </P>
                             </div>
                         </div>

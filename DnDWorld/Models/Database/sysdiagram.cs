@@ -7,18 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DnDWorld.Models
+namespace DnDWorld.Models.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CharacterDescription
+    public partial class sysdiagram
     {
-        public int CharacterDescriptionID { get; set; }
-        public int CharacterID { get; set; }
-        public int DescriptionID { get; set; }
-    
-        public virtual Character Character { get; set; }
-        public virtual Description Description { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

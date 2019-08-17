@@ -32,11 +32,11 @@
                         <!-- Background image for card set in CSS! -->
                     </div>
                     <div class="card-body bg-dark">
-                        <h5 class="card-title text-center">Register</h5>
+                        <h5 class="card-title text-center">Giriş Yap</h5>
                         @using (Html.BeginForm("SignIn", "Sign", FormMethod.Post, new { @class = "form-signin" }))
                         {
                             <div class="form-label-group">
-                                <input type="text" id="inputUserame" name="txtUserName" class="form-control" placeholder="Email Adresi" required autofocus>
+                                <input type="text" id="inputUserame" name="txtEmail" class="form-control" placeholder="Email Adresi" required autofocus>
                                 <br />
                             </div>
 
