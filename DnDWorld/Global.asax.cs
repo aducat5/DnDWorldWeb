@@ -17,5 +17,13 @@ namespace DnDWorld
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            //TODO:Handle Later
+            Response.Redirect("/Home/NotFound/");
+        }
     }
 }

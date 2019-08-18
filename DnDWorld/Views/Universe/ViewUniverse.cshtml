@@ -1,27 +1,112 @@
 ﻿@model Universe
 @{
-    if (Model != null)
-    {
-        ViewBag.Title = Model.Fullname;
-    }
+    ViewBag.Title = Model.Fullname;
+    List<Planet> planetsOfUniverse = Model.Planets.ToList();
 }
-<section class="section_padding">
+
+
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png)" );>
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-8">
                 <h1 class="align-self-center">
-                    @if (Model != null)
+                    @if (Model.IsPublic)
                     {
-                        @Model.Fullname
+                        <i class="fa fa-globe-europe text-danger" id="publicSwitchIcon"></i>
                     }
+                    else
+                    {
+                        <i class="fa fa-lock text-danger" id="publicSwitchIcon"></i>
+                    }
+                    @Model.Fullname
                     isimli evrene hoşgeldin.
                 </h1>
-                <p>
-                    Görmeye çalıştığınız sayfa ya hiç var olmadı ya da yüzüğü taktı. Sizi iyisi mi <a href="/Home/Index">anasayfa</a>ya alalım. Üye değilsen bir de <a href="/Sign/SignUp">üye ol</a>up <a href="/Sign/SignIn">giriş yap</a>tıktan sonra girmeyi deneyebilirsiniz. Belki üyelere özel bir içeriktir.
-                </p>
+                @if (Model.IsPublic)
+                {
+                    <p>
+                        Bu evrenin sahibi <a href="#">Samet Aybaba</a>, evrenin kullanımı herkese açtı. Hemen yanındaki tuşu kullanarak evreni genişletebilirsin.
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        Bu evrenin sahibi <a href="#">Samet Aybaba</a>, kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
+                    </p>
+
+                }
+            </div>
+            <div class="col-4 text-white btn-group-vertical" id="toolBar">
+                @if (Model.IsPublic)
+                {
+                    <button class="genric-btn danger btn-block" style="text-align:start;">
+                        <i class="fa fa-plus"></i>
+                        Bu Evrende Bir Gezegen Oluştur
+                    </button>
+                }
+                else
+                {
+                    <button class="genric-btn info btn-block" style="text-align:start;">
+                        <i class="fa fa-unlock"></i>
+                        Görüntüleme izni iste
+                    </button>
+                    <button class="genric-btn info btn-block" style="text-align:start;">
+                        <i class="fa fa-unlock"></i>
+                        Genişletme izni iste
+                    </button>
+                }
+            </div>
+            <div class="col-4 position-absolute" style="margin-top:50px;" id="toolTipContainer">
+
             </div>
         </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        @if (planetsOfUniverse.Count > 0)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <h3>Bu evrene ait gezegenler</h3>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12">
+                    <h3>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h3>
+                </div>
+            </div>
+        }
     </div>
 </section>
 
 
+
+@section pageScripts{
+    <script>
+        $publicIcon = $("#publicSwitchIcon");
+        var isPublic = @Model.IsPublic.ToString().ToLower();
+
+        if (isPublic) {
+            $tooltip = '<div class="alert alert-info">Bu simge evrenin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+        } else {
+            $tooltip = '<div class="alert alert-info">Bu simge evrenin yaratıcısına özel olacağı anlamına gelir. Yaratıcısı siz değilseniz görüntülemek ve genişletmek için izin almanız gerekmektedir.</div > ';
+        }
+
+        $publicIcon.hover(function () {
+            $("#toolTipContainer").append($tooltip);
+        }, function () {
+            $("#toolTipContainer").html("");
+        });
+    </script>
+}

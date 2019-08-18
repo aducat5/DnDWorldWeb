@@ -1,32 +1,28 @@
-﻿using DnDWorld.Models;
-using DnDWorld.Models.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
+using DnDWorld.BLL.CustomExceptions;
+using DnDWorld.BLL.Repositories;
+using DnDWorld.BSL.Authorization;
+using DnDWorld.DAL;
 using DnDWorld.Utility;
 
 namespace DnDWorld.Controllers
 {
     public class UniverseController : Controller
     {
-        DnDWorldDBEntities db = DBTools.GetDB();
-        // GET: Universe
+        UniverseRepo universeRepo = new UniverseRepo();
+
         [UserAuth]
-        public ActionResult Create()
-        {
-            return View(GetUniversesOfUser((Session["user"] as User).UserID));
-        }
+        public ActionResult Create() => View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
 
         [UserAuth, HttpPost]
         public ActionResult Create(string txtUniverseName, bool chkIsPublic = false)
         {
-            if (db.Universes.Any(u => u.Fullname == txtUniverseName))
+            if (universeRepo.DoesUniverseExists(txtUniverseName))
             {
                 ViewBag.AlertMessage = "Bu isim zaten kullanımda";
                 ViewBag.AlertClass = "alert alert-danger";
-                return View(GetUniversesOfUser((Session["user"] as User).UserID));
+                return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
             }
             else
             {
@@ -36,35 +32,18 @@ namespace DnDWorld.Controllers
                     IsPublic = !chkIsPublic,
                     OwnerID = (Session["user"] as User).UserID
                 };
-                try
+                bool sonuc = universeRepo.InsertUniverse(newUniverse, out string islemSonucu);
+                if (sonuc)
                 {
-                    db.Universes.Add(newUniverse);
-                    if (db.SaveChanges() > 0)
-                    {
-                        return RedirectToAction("View", "Profile", new { uniState = "suc" });
-                    }
-                    else
-                    {
-                        ViewBag.AlertMessage = "Kayıt esnasında bir hata oluştu";
-                        ViewBag.AlertClass = "alert alert-danger";
-                        return View(GetUniversesOfUser((Session["user"] as User).UserID));
-                    }
+                    return RedirectToAction("View", "Profile", new { uniState = "suc" });
                 }
-                catch (Exception ex)
+                else
                 {
-
-                    ViewBag.AlertMessage = "Kayıt esnasında bir çalışma zamanı hatası oluştu: " + ex.Message;
+                    ViewBag.AlertMessage = islemSonucu;
                     ViewBag.AlertClass = "alert alert-danger";
-                    return View(GetUniversesOfUser((Session["user"] as User).UserID));
+                    return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
                 }
             }
-        }
-
-        public List<Universe> GetUniversesOfUser(int userID)
-        {
-            List<Universe> universes = null;
-            universes = db.Universes.Where(u => u.OwnerID == userID).ToList();
-            return universes;
         }
 
         public ActionResult ViewUniverse(string id = "0")
@@ -72,10 +51,10 @@ namespace DnDWorld.Controllers
             try
             {
                 int universeID = id.ToInt();
-                if (universeID > 0 && db.Universes.Any(u => u.UniverseID == universeID))
+                if (universeID > 0 && universeRepo.DoesUniverseExists(universeID))
                 {
                     //Bu evren mevcut
-                    Universe universe = db.Universes.Find(universeID);
+                    Universe universe = universeRepo.GetUniverse(universeID);
                     if (universe.IsPublic)
                     {
                         //Evren halka açık, herkes görebilir
@@ -90,42 +69,19 @@ namespace DnDWorld.Controllers
                             User currentUser = Session["user"] as User;
 
                             bool isOwner = universe.OwnerID == currentUser.UserID;
-                            bool isPermitted = db.Permissions.Any(
-                                p => 
-                                p.PermissionTypeID == PermissionTypes.Read.ToInt() &&
-                                p.ContentTypeID == ContentTypes.Universe.ToInt() &&
-                                p.ContentID == universe.UniverseID &&
-                                p.GrantedUserID == currentUser.UserID
-                                );
+                            bool isPermitted = UserRepo.IsUserAllowed(currentUser.UserID, universe.UniverseID, PermissionTypes.Read, ContentTypes.Universe);
 
-                            if (isOwner || isPermitted)
-                            {
-                                //Kullanıcı bu içeriğin sahibi ya da görüntüleme iznine sahip
-                                return View(universe);
-                            }
-                            else
-                            {
-                                //Kullanıcının bu içeriği görüntüleme izni yok.
-                                return GenFunx.Go404();
-                            }
+                            if (isOwner || isPermitted) return View(universe);
+                            else throw new PageNotFoundException();
                         }
-                        else
-                        {
-                            //önce oturum aç
-                            return GenFunx.Go404();
-                        }
+                        else throw new PageNotFoundException();
                     }
                 }
-                else
-                {
-                    //Böyle bir evren yok
-                    return GenFunx.Go404();
-                }
+                else throw new PageNotFoundException();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Bir hata çıktı
-                return GenFunx.Go404();
+                throw new PageNotFoundException();
             }
         }
     }
