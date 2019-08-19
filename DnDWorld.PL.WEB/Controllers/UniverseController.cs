@@ -1,12 +1,15 @@
-﻿using System;
-using System.Web.Mvc;
-using DnDWorld.BLL.CustomExceptions;
+﻿using DnDWorld.BLL.CustomExceptions;
 using DnDWorld.BLL.Repositories;
 using DnDWorld.BSL.Authorization;
 using DnDWorld.DAL;
 using DnDWorld.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
-namespace DnDWorld.Controllers
+namespace DnDWorld.PL.WEB.Controllers
 {
     public class UniverseController : Controller
     {

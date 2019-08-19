@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace DnDWorld
+namespace DnDWorld.PL.WEB
 {
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -17,7 +17,6 @@ namespace DnDWorld
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
 
         protected void Application_Error(object sender, EventArgs e)
         {

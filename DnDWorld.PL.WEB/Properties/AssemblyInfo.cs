@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DnDWorld")]
+[assembly: AssemblyTitle("DnDWorld.PL.WEB")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DnDWorld")]
+[assembly: AssemblyProduct("DnDWorld.PL.WEB")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("48c9de25-9cc9-4eac-9a39-7aebca2207c9")]
+[assembly: Guid("cdd55622-ccb8-4964-96cf-d1437daed66b")]
 
 // Version information for an assembly consists of the following four values:
 //

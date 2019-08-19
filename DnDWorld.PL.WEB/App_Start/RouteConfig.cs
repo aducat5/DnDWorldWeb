@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace DnDWorld
+namespace DnDWorld.PL.WEB
 {
     public class RouteConfig
     {

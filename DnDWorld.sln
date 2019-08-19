@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDWorld.PLWEB", "DnDWorld\DnDWorld.PLWEB.csproj", "{FAA8FBA6-C29C-44CE-BCDC-984E90882543}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDWorld.BLL", "DnDWorld.BLL\DnDWorld.BLL.csproj", "{C5C4A8E4-6298-41F1-961D-055BD155DB2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDWorld.DAL", "DnDWorld.DAL\DnDWorld.DAL.csproj", "{5EDB7D45-F783-48A5-8375-E6CD6B970649}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDWorld.BSL", "DnDWorld.BSL\DnDWorld.BSL.csproj", "{81A7A037-4E1F-4DD8-8253-B45790406682}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDWorld.PL.WEB", "DnDWorld.PL.WEB\DnDWorld.PL.WEB.csproj", "{B2D0492E-94FE-43DD-8E50-7A9F23494449}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FAA8FBA6-C29C-44CE-BCDC-984E90882543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAA8FBA6-C29C-44CE-BCDC-984E90882543}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAA8FBA6-C29C-44CE-BCDC-984E90882543}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAA8FBA6-C29C-44CE-BCDC-984E90882543}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5C4A8E4-6298-41F1-961D-055BD155DB2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5C4A8E4-6298-41F1-961D-055BD155DB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5C4A8E4-6298-41F1-961D-055BD155DB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{81A7A037-4E1F-4DD8-8253-B45790406682}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81A7A037-4E1F-4DD8-8253-B45790406682}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81A7A037-4E1F-4DD8-8253-B45790406682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D0492E-94FE-43DD-8E50-7A9F23494449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D0492E-94FE-43DD-8E50-7A9F23494449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D0492E-94FE-43DD-8E50-7A9F23494449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D0492E-94FE-43DD-8E50-7A9F23494449}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
