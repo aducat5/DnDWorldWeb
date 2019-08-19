@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DnDWorld.DAL;
+using DnDWorld.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,7 @@ namespace DnDWorld.BLL.Repositories
 {
     public class PlanetRepo
     {
+        DnDWorldDBEntities db = DBTools.DBInstance;
 
     }
 }

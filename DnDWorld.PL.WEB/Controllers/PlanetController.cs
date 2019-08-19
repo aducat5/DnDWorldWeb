@@ -8,9 +8,11 @@ namespace DnDWorld.PL.WEB.Controllers
     public class PlanetController : Controller
     {
         PlanetRepo planetRepo = new PlanetRepo();
+        UniverseRepo universeRepo = new UniverseRepo();
 
         [UserAuth]
-        public ActionResult Create() => View();
+        public ActionResult Create() => View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+
 
         [UserAuth, HttpPost]
         public ActionResult Create(string txtPlanetName, string txtUniverseID, bool chkIsPublic = false)
