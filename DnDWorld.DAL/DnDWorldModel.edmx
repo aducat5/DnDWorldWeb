@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DnDWorldDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DnDWorldDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AuthTypes">
           <Key>
             <PropertyRef Name="AuthTypeID" />
@@ -83,6 +83,17 @@
           <Property Name="DescriptionTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DescriptionTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="EventLogs">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTypeID" Type="int" Nullable="false" />
+          <Property Name="LogMessage" Type="text" Nullable="false" />
+          <Property Name="Detail" Type="text" Nullable="false" />
+          <Property Name="MachineName" Type="text" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="Items">
           <Key>
             <PropertyRef Name="ItemID" />
@@ -91,6 +102,13 @@
           <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="Weight" Type="decimal" Precision="18" Scale="1" />
+        </EntityType>
+        <EntityType Name="LogTypes">
+          <Key>
+            <PropertyRef Name="LogTypeID" />
+          </Key>
+          <Property Name="LogTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Lores">
           <Key>
@@ -296,6 +314,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EventLogs_LogTypes">
+          <End Role="LogTypes" Type="Self.LogTypes" Multiplicity="1" />
+          <End Role="EventLogs" Type="Self.EventLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogTypes">
+              <PropertyRef Name="LogTypeID" />
+            </Principal>
+            <Dependent Role="EventLogs">
+              <PropertyRef Name="LogTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Lores_LoreTypes">
           <End Role="LoreTypes" Type="Self.LoreTypes" Multiplicity="1" />
           <End Role="Lores" Type="Self.Lores" Multiplicity="*" />
@@ -438,7 +468,9 @@
           <EntitySet Name="ContentTypes" EntityType="Self.ContentTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Descriptions" EntityType="Self.Descriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DescriptionTypes" EntityType="Self.DescriptionTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventLogs" EntityType="Self.EventLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogTypes" EntityType="Self.LogTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lores" EntityType="Self.Lores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoreTypes" EntityType="Self.LoreTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
@@ -484,6 +516,10 @@
           <AssociationSet Name="FK_Descriptions_DescriptionTypes" Association="Self.FK_Descriptions_DescriptionTypes">
             <End Role="DescriptionTypes" EntitySet="DescriptionTypes" />
             <End Role="Descriptions" EntitySet="Descriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventLogs_LogTypes" Association="Self.FK_EventLogs_LogTypes">
+            <End Role="LogTypes" EntitySet="LogTypes" />
+            <End Role="EventLogs" EntitySet="EventLogs" />
           </AssociationSet>
           <AssociationSet Name="FK_Lores_LoreTypes" Association="Self.FK_Lores_LoreTypes">
             <End Role="LoreTypes" EntitySet="LoreTypes" />
@@ -630,6 +666,18 @@
           <Property Name="DescriptionTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Descriptions" Relationship="Self.FK_Descriptions_DescriptionTypes" FromRole="DescriptionTypes" ToRole="Descriptions" />
         </EntityType>
+        <EntityType Name="EventLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogTypeID" Type="Int32" Nullable="false" />
+          <Property Name="LogMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MachineName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="LogType" Relationship="Self.FK_EventLogs_LogTypes" FromRole="EventLogs" ToRole="LogTypes" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="ItemID" />
@@ -639,6 +687,14 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Weight" Type="Decimal" Precision="18" Scale="1" />
           <NavigationProperty Name="CharacterItems" Relationship="Self.FK_CharacterItems_Items" FromRole="Items" ToRole="CharacterItems" />
+        </EntityType>
+        <EntityType Name="LogType">
+          <Key>
+            <PropertyRef Name="LogTypeID" />
+          </Key>
+          <Property Name="LogTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EventLogs" Relationship="Self.FK_EventLogs_LogTypes" FromRole="LogTypes" ToRole="EventLogs" />
         </EntityType>
         <EntityType Name="Lore">
           <Key>
@@ -890,6 +946,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EventLogs_LogTypes">
+          <End Role="LogTypes" Type="Self.LogType" Multiplicity="1" />
+          <End Role="EventLogs" Type="Self.EventLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogTypes">
+              <PropertyRef Name="LogTypeID" />
+            </Principal>
+            <Dependent Role="EventLogs">
+              <PropertyRef Name="LogTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Lores_LoreTypes">
           <End Role="LoreTypes" Type="Self.LoreType" Multiplicity="1" />
           <End Role="Lores" Type="Self.Lore" Multiplicity="*" />
@@ -1008,7 +1076,9 @@
           <EntitySet Name="ContentTypes" EntityType="Self.ContentType" />
           <EntitySet Name="Descriptions" EntityType="Self.Description" />
           <EntitySet Name="DescriptionTypes" EntityType="Self.DescriptionType" />
+          <EntitySet Name="EventLogs" EntityType="Self.EventLog" />
           <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="LogTypes" EntityType="Self.LogType" />
           <EntitySet Name="Lores" EntityType="Self.Lore" />
           <EntitySet Name="LoreTypes" EntityType="Self.LoreType" />
           <EntitySet Name="Permissions" EntityType="Self.Permission" />
@@ -1062,6 +1132,10 @@
           <AssociationSet Name="FK_Descriptions_DescriptionTypes" Association="Self.FK_Descriptions_DescriptionTypes">
             <End Role="DescriptionTypes" EntitySet="DescriptionTypes" />
             <End Role="Descriptions" EntitySet="Descriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventLogs_LogTypes" Association="Self.FK_EventLogs_LogTypes">
+            <End Role="LogTypes" EntitySet="LogTypes" />
+            <End Role="EventLogs" EntitySet="EventLogs" />
           </AssociationSet>
           <AssociationSet Name="FK_Lores_LoreTypes" Association="Self.FK_Lores_LoreTypes">
             <End Role="LoreTypes" EntitySet="LoreTypes" />
@@ -1193,6 +1267,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EventLogs">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.EventLog">
+              <MappingFragment StoreEntitySet="EventLogs">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+                <ScalarProperty Name="LogMessage" ColumnName="LogMessage" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DnDWorldDBModel.Item">
               <MappingFragment StoreEntitySet="Items">
@@ -1200,6 +1286,14 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTypes">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.LogType">
+              <MappingFragment StoreEntitySet="LogTypes">
+                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+                <ScalarProperty Name="LogTypeName" ColumnName="LogTypeName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

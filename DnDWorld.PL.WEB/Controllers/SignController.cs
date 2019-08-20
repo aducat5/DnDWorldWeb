@@ -1,6 +1,7 @@
 ﻿using DnDWorld.BLL.Repositories;
 using DnDWorld.BSL.Authorization;
 using DnDWorld.DAL;
+using DnDWorld.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,16 +39,32 @@ namespace DnDWorld.PL.WEB.Controllers
         [HttpPost]
         public ActionResult SignIn(string txtEmail, string txtPassword)
         {
-            Session["user"] = userRepo.GetUser(txtEmail, txtPassword);
-            if (Session["user"] != null)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                Session["user"] = userRepo.GetUser(txtEmail, txtPassword);
+                if (Session["user"] != null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.LoginState = "Giriş başarısız oldu. Kullanıcı adı veya şifre yanlış.";
+                    ViewBag.AlertState = "alert alert-danger";
+                    return View();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.LoginState = "Giriş başarısız oldu. Kullanıcı adı veya şifre yanlış.";
-                ViewBag.AlertState = "alert alert-danger";
-                return View();
+                int eventLogID = LogTypes.Error.ToInt();
+                EventLog loginError = new EventLog()
+                {
+                    LogTypeID = eventLogID,
+                    LogMessage = ex.Message,
+                    CreateDate = DateTime.Now,
+                    MachineName = Server.MachineName,
+                    Detail = ex.InnerException + " - " + ex.StackTrace  
+                };
+                throw;
             }
         }
         public ActionResult SignOut()

@@ -18,4 +18,11 @@ namespace DnDWorld.Utility
         Universe = 1,
         Planet = 2
     }
+
+    public enum LogTypes
+    {
+        Error = 1,
+        Info = 2,
+        Debug = 3
+    }
 }

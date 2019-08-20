@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DnDWorld.BLL.Utility;
+using DnDWorld.DAL;
+using DnDWorld.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +24,31 @@ namespace DnDWorld.PL.WEB
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
+            int logTypeID = LogTypes.Error.ToInt();
+            if (exception != null)
+            {
+                EventLog errorLog = new EventLog()
+                {
+                    LogTypeID = logTypeID,
+                    CreateDate = DateTime.Now,
+                    LogMessage = exception.Message,
+                    Detail = exception.InnerException + " - " + exception.StackTrace,
+                    MachineName = Server.MachineName
+                };
+                Logger.Log(errorLog);
+            }
+            else
+            {
+                EventLog errorLog = new EventLog()
+                {
+                    LogTypeID = logTypeID,
+                    CreateDate = DateTime.Now,
+                    LogMessage = "Bilinmeyen Hata",
+                    MachineName = Server.MachineName,
+                    Detail = "Bilinmeyen Hata"
+                };
+               
+            }
             //TODO:Handle Later
             Response.Redirect("/Home/NotFound/");
         }

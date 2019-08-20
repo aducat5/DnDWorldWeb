@@ -34,7 +34,9 @@ namespace DnDWorld.DAL
         public virtual DbSet<ContentType> ContentTypes { get; set; }
         public virtual DbSet<Description> Descriptions { get; set; }
         public virtual DbSet<DescriptionType> DescriptionTypes { get; set; }
+        public virtual DbSet<EventLog> EventLogs { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<LogType> LogTypes { get; set; }
         public virtual DbSet<Lore> Lores { get; set; }
         public virtual DbSet<LoreType> LoreTypes { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
