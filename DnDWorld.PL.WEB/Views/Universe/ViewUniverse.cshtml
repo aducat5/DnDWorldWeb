@@ -20,7 +20,7 @@
                 <h1 class="align-self-center">
                     @if (Model.IsPublic)
                     {
-                        <i class="fa fa-globe-europe text-danger" id="publicSwitchIcon"></i>
+                        <i class="fa fa-globe-europe text-white" id="publicSwitchIcon"></i>
                     }
                     else
                     {
@@ -31,15 +31,15 @@
                 </h1>
                 @if (Model.IsPublic || (currentUser != null && isUserGranted))
                 {
-                    <p>
-                        Bu evrenin sahibi <a href="#">@Model.User.Fullname</a>, evrenin kullanımı herkese açtı. Hemen yanındaki tuşu kullanarak evreni genişletebilirsin.
-                    </p>
+            <p>
+                Bu evrenin sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), evrenin kullanımı herkese açtı. Hemen yanındaki tuşu kullanarak evreni genişletebilirsin.
+            </p>
                 }
                 else
                 {
-                    <p>
-                        Bu evrenin sahibi <a href="#">Samet Aybaba</a>, kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
-                    </p>
+            <p>
+                Bu evrenin sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
+            </p>
                 }
             </div>
             <div class="col-4 text-white btn-group-vertical" id="toolBar">
@@ -52,7 +52,7 @@
                 }
                 else
                 {
-                    <button class="genric-btn info btn-block" style="text-align:start;">
+                    <button class="genric-btn btn-block info" style="text-align:start;">
                         <i class="fa fa-unlock"></i>
                         Görüntüleme izni iste
                     </button>
@@ -94,15 +94,33 @@
                 }
                 else
                 {
-                    <div class="col-12">
-                        <h3>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h3>
+                    <div class="col-12" style="margin-top:100px">
+                        <div class="alert bg-dark">
+                            <div class="row">
+                                <div class="col-1 text-center text-white">
+                                    <i class="fa fa-baby fa-3x"></i>
+                                </div>
+                                <div class="col-11" style="padding-top:10px">
+                                    <h4>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
             }
             else
             {
-                <div class="col-12">
-                    <h3>Üzgünüm bu evrenin içeriğini görmek için izniniz yok. Üye olup sahibinden izin istemeniz gerekiyor.</h3>
+                <div class="col-12" style="margin-top:100px">
+                    <div class="alert bg-dark">
+                        <div class="row">
+                            <div class="col-1 text-center text-danger">
+                                <i class="fa fa-lock fa-3x"></i>
+                            </div>
+                            <div class="col-11" style="padding-top:10px">
+                                <h4>Üzgünüm bu evrenin içeriğini görmek için izniniz yok. Üye olup sahibinden izin istemeniz gerekiyor.</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
 

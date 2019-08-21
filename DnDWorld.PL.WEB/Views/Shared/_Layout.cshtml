@@ -56,10 +56,10 @@
                                         </div>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="fighter.html">Hikayeler</a>
+                                        @Html.ActionLink("Hikayeler", "ViewAll", "Lores", null, new { @class = "nav-link" })
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="fighter.html">Kaynaklar</a>
+                                        @Html.ActionLink("Hikayeler", "ViewAll", "Sources", null, new { @class = "nav-link" })
                                     </li>
                                     @if (currentUser != null)
                                     {

@@ -49,41 +49,35 @@ namespace DnDWorld.PL.WEB.Controllers
 
         public ActionResult ViewUniverse(string id = "0")
         {
-            try
+            int universeID = id.ToInt();
+            if (universeID > 0 && universeRepo.DoesUniverseExists(universeID))
             {
-                int universeID = id.ToInt();
-                if (universeID > 0 && universeRepo.DoesUniverseExists(universeID))
-                {
-                    //Bu evren mevcut
-                    Universe universe = universeRepo.GetUniverse(universeID);
-                    if (universe.IsPublic)
-                    {
-                        //Evren halka açık, herkes görebilir
-                        return View(universe);
-                    }
-                    else
-                    {
-                        //Evren özel
-                        if (Session["user"] != null)
-                        {
-                            //oturum açık
-                            User currentUser = Session["user"] as User;
+                //Bu evren mevcut
+                Universe universe = universeRepo.GetUniverse(universeID);
+                //if (universe.IsPublic)
+                //{
+                //    //Evren halka açık, herkes görebilir
+                //    return View(universe);
+                //}
+                //else
+                //{
+                //    //Evren özel
+                //    if (Session["user"] != null)
+                //    {
+                //        //oturum açık
+                //        User currentUser = Session["user"] as User;
 
-                            bool isOwner = universe.OwnerID == currentUser.UserID;
-                            bool isPermitted = UserRepo.IsUserAllowed(currentUser.UserID, universe.UniverseID, PermissionTypes.Read, ContentTypes.Universe);
+                //        bool isOwner = universe.OwnerID == currentUser.UserID;
+                //        bool isPermitted = UserRepo.IsUserAllowed(currentUser.UserID, universe.UniverseID, PermissionTypes.Read, ContentTypes.Universe);
 
-                            if (isOwner || isPermitted) return View(universe);
-                            else throw new PageNotFoundException();
-                        }
-                        else throw new PageNotFoundException();
-                    }
-                }
-                else throw new PageNotFoundException();  
+                //        if (isOwner || isPermitted) return View(universe);
+                //        else throw new PageNotFoundException();
+                //    }
+                //    else throw new PageNotFoundException();
+                //}
+                return View(universe);
             }
-            catch (Exception)
-            {
-                throw new PageNotFoundException();
-            }
+            else throw new PageNotFoundException();
         }
     }
 }
