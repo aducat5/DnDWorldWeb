@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = Model.Fullname;
     List<Planet> planetsOfUniverse = Model.Planets.ToList();
+    User currentUser = null;
+    bool isUserGranted = false;
+    if (Session["user"] != null)
+    {
+        currentUser = Session["user"] as User;
+        isUserGranted = currentUser.UserID == Model.OwnerID || UserRepo.IsUserAllowed(currentUser.UserID, Model.UniverseID, PermissionTypes.Read, ContentTypes.Universe);
+    }
+
 }
 
 
@@ -21,10 +29,10 @@
                     @Model.Fullname
                     isimli evrene hoşgeldin.
                 </h1>
-                @if (Model.IsPublic)
+                @if (Model.IsPublic || (currentUser != null && isUserGranted))
                 {
                     <p>
-                        Bu evrenin sahibi <a href="#">Samet Aybaba</a>, evrenin kullanımı herkese açtı. Hemen yanındaki tuşu kullanarak evreni genişletebilirsin.
+                        Bu evrenin sahibi <a href="#">@Model.User.Fullname</a>, evrenin kullanımı herkese açtı. Hemen yanındaki tuşu kullanarak evreni genişletebilirsin.
                     </p>
                 }
                 else
@@ -32,11 +40,10 @@
                     <p>
                         Bu evrenin sahibi <a href="#">Samet Aybaba</a>, kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
                     </p>
-
                 }
             </div>
             <div class="col-4 text-white btn-group-vertical" id="toolBar">
-                @if (Model.IsPublic)
+                @if (Model.IsPublic || (currentUser != null && isUserGranted))
                 {
                     <button onclick="window.location.href = '@Url.Action("Create", "Planet", null)'" class="genric-btn danger btn-block" style="text-align:start;">
                         <i class="fa fa-plus"></i>
@@ -59,41 +66,47 @@
 
             </div>
         </div>
-        @if (planetsOfUniverse.Count > 0)
-        {
-            <div class="row">
-                @foreach (Planet planet in planetsOfUniverse)
+        <div class="row">
+            @if (Model.IsPublic || (currentUser != null && isUserGranted))
+            {
+                if (planetsOfUniverse.Count > 0)
                 {
-                    <div class="col-4">
-                        <div class="card bg-dark">
-
-                            <div class="card-body">
-                                <h4 class="card-title">@planet.Fullname</h4>
-                                <p class="card-text">
-                                    @Html.ActionLink(planet.User.Fullname, "ViewUser", "User", new { id = planet.OwnerID }, null)
-                                    adlı kişinin oluşturduğu bu dünyada toplam 6 <a href="#">macera</a> mevcut.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="card-link">Dünyayı Gör</a>
-                                <div class="btn-group">
-                                    <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                    foreach (Planet planet in planetsOfUniverse)
+                    {
+                        <div class="col-4">
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                    <h4 class="card-title">@planet.Fullname</h4>
+                                    <p class="card-text">
+                                        @Html.ActionLink(planet.User.Fullname, "ViewUser", "User", new { id = planet.OwnerID }, null)
+                                        adlı kişinin oluşturduğu bu dünyada toplam 6 <a href="#">macera</a> mevcut.
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="card-link">Dünyayı Gör</a>
+                                    <div class="btn-group">
+                                        <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <h3>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h3>
                     </div>
                 }
-            </div>
-        }
-        else
-        {
-            <div class="row">
+            }
+            else
+            {
                 <div class="col-12">
-                    <h3>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h3>
+                    <h3>Üzgünüm bu evrenin içeriğini görmek için izniniz yok. Üye olup sahibinden izin istemeniz gerekiyor.</h3>
                 </div>
-            </div>
-        }
+            }
 
+        </div>
     </div>
 </section>
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DnDWorld.BLL.Utility;
 using DnDWorld.DAL;
-using DnDWorld.Utility;
 
 namespace DnDWorld.BLL.Repositories
 {

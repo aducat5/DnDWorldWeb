@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnDWorld.Utility
+namespace DnDWorld.BLL.Utility
 {
     public static class GenFunx
     {

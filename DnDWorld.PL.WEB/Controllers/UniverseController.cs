@@ -2,11 +2,9 @@
 using DnDWorld.BLL.Repositories;
 using DnDWorld.BSL.Authorization;
 using DnDWorld.DAL;
-using DnDWorld.Utility;
+using DnDWorld.BLL.Utility;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DnDWorld.PL.WEB.Controllers
@@ -80,9 +78,9 @@ namespace DnDWorld.PL.WEB.Controllers
                         else throw new PageNotFoundException();
                     }
                 }
-                else throw new PageNotFoundException();
+                else throw new PageNotFoundException();  
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new PageNotFoundException();
             }

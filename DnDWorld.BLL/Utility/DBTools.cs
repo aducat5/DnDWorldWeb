@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DnDWorld.Utility
+namespace DnDWorld.BLL.Utility
 {
     public class DBTools
     {
