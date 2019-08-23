@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Kayıt Ol";
 }
+
+@section pageStyles{
+    <link rel="stylesheet" href="~/Content/css/validate.css">
+}
+
+
 <section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/banner_bg.png)" );">
     <div class="container">
         <div class="row">
@@ -45,12 +51,12 @@
                             </div>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Parolayı Doğrula" required>
+                                <input type="password" id="inputConfirmPassword" class="form-control active" placeholder="Parolayı Doğrula" required>
                                 <br />
                             </div>
 
-                            <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Kayıt Ol</button>
-                            <a class="d-block text-center mt-2 small" href="@Url.Action("SignIn", "Sign")">Girişl Yap</a>
+                            <button id="submitButton" class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Kayıt Ol</button>
+                            <a class="d-block text-center mt-2 small" href="@Url.Action("SignIn", "Sign")">Giriş Yap</a>
                             <hr class="my-4">
                             <button class="btn btn-lg btn-google btn-block text-uppercase" disabled type="submit"><i class="fab fa-google mr-2"></i> Google ile Kayıt Ol</button>
                             <button class="btn btn-lg btn-facebook btn-block text-uppercase" disabled type="submit"><i class="fab fa-facebook-f mr-2"></i>Facebook ile Kayıt Ol</button>
@@ -61,3 +67,35 @@
         </div>
     </div>
 </section>
+
+@section pageScripts{
+    <script>
+        $password = $("#inputPassword");
+        $passwordConfirm = $("#inputConfirmPassword");
+
+        $("#inputConfirmPassword").on("change textInput input", function () {
+            if ($password.val() != $passwordConfirm.val()) {
+                $("#submitButton").attr("disabled", true);
+                $passwordConfirm.removeClass("valid");
+                $passwordConfirm.addClass("invalid");
+            } else {
+                $("#submitButton").attr("disabled", false);
+                $passwordConfirm.removeClass("invalid");
+                $passwordConfirm.addClass("valid");
+            }
+        });
+
+        
+        $("#inputPassword").on("change textInput input", function () {
+            if ($password.val() != $("#inputConfirmPassword").val()) {
+                $("#submitButton").attr("disabled", true);
+                $passwordConfirm.removeClass("valid");
+                $passwordConfirm.addClass("invalid");
+            } else {
+                $("#submitButton").attr("disabled", false);
+                $passwordConfirm.removeClass("invalid");
+                $passwordConfirm.addClass("valid");
+            }
+        });
+    </script>
+}

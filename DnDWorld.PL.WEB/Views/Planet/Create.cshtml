@@ -1,10 +1,11 @@
 ﻿@model List<Universe>
 @{
     ViewBag.Title = "Yeni Dünya";
+    User currentUser = Session["user"] as User;
 }
 
 @section pageStyles{
-    <link rel="stylesheet" href="~/Content/css/nice-select.css">
+
 }
 
 <section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png)" );>
@@ -31,13 +32,23 @@
                 {
                     <div class="row">
                         <div class="col-6">
-                            <h3>Genişletme İzniniz Olan Evrenler</h3>
-                            <div class="input-group-icon mt-10">
-                                <div class="icon"><i class="fa fa-plane" aria-hidden="true"></i></div>
-                                <div class="form-select" id="default-select">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Dünya Ayrıntıları</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-user-astronaut fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Evren</h4>
+                                </div>
+                                <div class="col-8">
                                     @if (Model != null && Model.Count > 0)
                                     {
-                                        <select name="universeID">
+                                        <select name="universeID" class="wide">
                                             <option value="0">Lütfen Evren Seçiniz</option>
                                             @foreach (Universe universe in Model)
                                             {
@@ -47,14 +58,31 @@
                                     }
                                     else
                                     {
-                                        <input type="text" class="form-control" name="txtPlanetName" placeholder="Kullanabileceğiniz evren yok gibi görünüyor." value="" />
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <input type="text" class="form-control" id="txtUniverseName" placeholder="Yeni Evren Adı" value="@currentUser.Fullname Evreni"/>
+                                            </div>
+                                            <div class="col-5">
+                                                <button onclick="CreateUniverse()" class="btn btn-success" id="btnNewUniverse">
+                                                    <i class="fa fa-check"></i> Oluştur
+                                                </button>
+                                            </div>
+                                        </div>
                                     }
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <h3>Evreninin adı</h3>
-                            <input type="text" class="form-control" name="txtPlanetName" value="" />
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-globe fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Dünya Adı</h4>
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" name="txtPlanetName" placeholder="ör: Dünya" value="@currentUser.Fullname Dünyası"/>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="row">
@@ -62,6 +90,7 @@
                                     <h3>Erişim ayarları</h3>
                                 </div>
                             </div>
+                            <hr class="bg-white" />
                             <div class="row">
                                 <div class="col-1" style="margin-top:6px">
                                     <i class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></i>
@@ -79,7 +108,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="position-absolute" style="margin-top:50px" id="toolTipContainer">
                                 </div>
                             </div>
@@ -95,12 +123,7 @@
                     </div>
                 }
             </div>
-
         </div>
-        <br /><br /><br />
-        <hr class="bg-white" />
-        <h2>Daha önceki evrenlerin</h2>
-
     </div>
 </section>
 
@@ -128,6 +151,36 @@
             $("#toolTipContainer").append($tooltip);
         }, function () {
             $("#toolTipContainer").html("");
-        });
+            });
+
+        function CreateUniverse() {
+            $.ajax({
+                url: "@Url.Action("CreateWithApi", "Universe")",
+                type: "POST",
+                data: { txtUniverseName: $("#txtUniverseName").val() },
+                success: function (result) {
+                    if (result) {
+                        $("#txtUniverseName").attr("disabled", "true");
+                        $("#btnNewUniverse").attr("disabled", "true");
+                    } else {
+
+                    }
+                },
+                error: function (result) {
+                    if (result) {
+
+                    }
+                }
+            });
+
+
+            @*$.post(
+                "@Url.Action("CreateWithApi", "Universe")",
+                { txtUniverseName: $("#txtUniverseName").val() },
+                function (data) {
+                    console.log(data);
+                }
+            );*@
+        };
     </script>
 }

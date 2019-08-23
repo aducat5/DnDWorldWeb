@@ -1,0 +1,13 @@
+﻿.valid {
+    border-color: lightgreen;
+    -webkit-box-shadow: 0 0 10px lightgreen;
+    -moz-box-shadow: 0 0 10px lightgreen;
+    box-shadow: 0 0 10px lightgreen;
+}
+
+.invalid {
+    border-color: orangered;
+    -webkit-box-shadow: 0 0 10px orangered;
+    -moz-box-shadow: 0 0 10px orangered;
+    box-shadow: 0 0 10px orangered;
+}
