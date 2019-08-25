@@ -48,13 +48,13 @@ namespace DnDWorld.PL.WEB.Controllers
         }
 
         [UserAuth, HttpPost]
-        public bool CreateWithApi(string txtUniverseName)
+        public int CreateWithApi(string txtUniverseName)
         {
             if (universeRepo.DoesUniverseExists(txtUniverseName))
             {
                 ViewBag.AlertMessage = "Bu isim zaten kullanımda";
                 ViewBag.AlertClass = "alert alert-danger";
-                return false;
+                return 0;
             }
             else
             {
@@ -64,15 +64,9 @@ namespace DnDWorld.PL.WEB.Controllers
                     IsPublic = false,
                     OwnerID = (Session["user"] as User).UserID
                 };
+
                 bool sonuc = universeRepo.InsertUniverse(newUniverse, out string islemSonucu);
-                if (sonuc)
-                    return true;
-                else
-                {
-                    ViewBag.AlertMessage = islemSonucu;
-                    ViewBag.AlertClass = "alert alert-danger";
-                    return false;
-                }
+                return newUniverse.UniverseID;
             }
         }
 
@@ -83,27 +77,6 @@ namespace DnDWorld.PL.WEB.Controllers
             {
                 //Bu evren mevcut
                 Universe universe = universeRepo.GetUniverse(universeID);
-                //if (universe.IsPublic)
-                //{
-                //    //Evren halka açık, herkes görebilir
-                //    return View(universe);
-                //}
-                //else
-                //{
-                //    //Evren özel
-                //    if (Session["user"] != null)
-                //    {
-                //        //oturum açık
-                //        User currentUser = Session["user"] as User;
-
-                //        bool isOwner = universe.OwnerID == currentUser.UserID;
-                //        bool isPermitted = UserRepo.IsUserAllowed(currentUser.UserID, universe.UniverseID, PermissionTypes.Read, ContentTypes.Universe);
-
-                //        if (isOwner || isPermitted) return View(universe);
-                //        else throw new PageNotFoundException();
-                //    }
-                //    else throw new PageNotFoundException();
-                //}
                 return View(universe);
             }
             else throw new PageNotFoundException();

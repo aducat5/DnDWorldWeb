@@ -51,96 +51,99 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Character.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CharacterClass.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CharacterDescription.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CharacterItem.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Class.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ContentType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="database_firewall_rules.cs">
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Description.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="DescriptionType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="DnDWorldModel.Context.cs">
+    <Compile Include="DnDWorldDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DnDWorldModel.Context.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DnDWorldModel.cs">
+    <Compile Include="DnDWorldDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="DnDWorldModel.Designer.cs">
+    <Compile Include="DnDWorldDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DnDWorldModel.edmx</DependentUpon>
+      <DependentUpon>DnDWorldDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="EventLog.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Item.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="LogType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Lore.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="LoreType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Permission.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="PermissionType.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Planet.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Race.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Universe.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="UserLogin.cs">
-      <DependentUpon>DnDWorldModel.tt</DependentUpon>
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="DnDWorldModel.edmx">
+    <EntityDeploy Include="DnDWorldDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DnDWorldModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>DnDWorldDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DnDWorldModel.edmx.diagram">
-      <DependentUpon>DnDWorldModel.edmx</DependentUpon>
+    <None Include="DnDWorldDB.edmx.diagram">
+      <DependentUpon>DnDWorldDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -148,15 +151,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DnDWorldModel.Context.tt">
+    <Content Include="DnDWorldDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DnDWorldModel.edmx</DependentUpon>
-      <LastGenOutput>DnDWorldModel.Context.cs</LastGenOutput>
+      <DependentUpon>DnDWorldDB.edmx</DependentUpon>
+      <LastGenOutput>DnDWorldDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DnDWorldModel.tt">
+    <Content Include="DnDWorldDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DnDWorldModel.edmx</DependentUpon>
-      <LastGenOutput>DnDWorldModel.cs</LastGenOutput>
+      <DependentUpon>DnDWorldDB.edmx</DependentUpon>
+      <LastGenOutput>DnDWorldDB.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,10 +8,17 @@ namespace DnDWorld.BLL.Repositories
     public class UniverseRepo
     {
         DnDWorldDBEntities db = DBTools.DBInstance;
-        public bool DoesUniverseExists(string universeName) => db.Universes.Any(u => u.Fullname == universeName);
+        public bool DoesUniverseExists(string universeName)
+        {
+            universeName = GenFunx.ClearText(universeName);
+            return db.Universes.Any(u => u.Fullname == universeName);
+        }
+
         public bool DoesUniverseExists(int universeID) => db.Universes.Any(u => u.UniverseID == universeID);
+
         public bool InsertUniverse(Universe newUniverse, out string islemSonucu)
         {
+            newUniverse.Fullname = GenFunx.ClearText(newUniverse.Fullname);
             if (!DoesUniverseExists(newUniverse.Fullname))
             {
                 db.Universes.Add(newUniverse);

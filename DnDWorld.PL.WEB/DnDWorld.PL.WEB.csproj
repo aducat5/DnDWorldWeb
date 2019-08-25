@@ -280,6 +280,7 @@
     <Content Include="Content\img\universeBack.png" />
     <Content Include="Content\img\war_logo_1.png" />
     <Content Include="Content\img\war_logo_2.png" />
+    <Content Include="Content\img\worldBack.png" />
     <Content Include="Content\js\aos.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\contact.js" />

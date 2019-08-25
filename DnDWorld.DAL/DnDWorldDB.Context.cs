@@ -47,5 +47,6 @@ namespace DnDWorld.DAL
         public virtual DbSet<Universe> Universes { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     }
 }

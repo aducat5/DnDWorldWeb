@@ -8,7 +8,7 @@
 
 }
 
-<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png)" );>
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/worldBack.png)" );>
     <div class="container">
         <div class="row">
             @if (ViewBag.AlertMessage != null)
@@ -48,8 +48,7 @@
                                 <div class="col-8">
                                     @if (Model != null && Model.Count > 0)
                                     {
-                                        <select name="universeID" class="wide">
-                                            <option value="0">Lütfen Evren Seçiniz</option>
+                                        <select required name="universeID" class="wide">
                                             @foreach (Universe universe in Model)
                                             {
                                                 <option value="@universe.UniverseID">@universe.Fullname</option>
@@ -59,14 +58,16 @@
                                     else
                                     {
                                         <div class="row">
-                                            <div class="col-7">
-                                                <input type="text" class="form-control" id="txtUniverseName" placeholder="Yeni Evren Adı" value="@currentUser.Fullname Evreni"/>
+                                            <div class="col-8">
+                                                <input required type="text" class="form-control" id="txtUniverseName" placeholder="Yeni Evren Adı" value="@currentUser.Fullname Evreni" />
+                                                <input type="hidden" name="universeID" id="universeID" value="0" />
                                             </div>
-                                            <div class="col-5">
-                                                <button onclick="CreateUniverse()" class="btn btn-success" id="btnNewUniverse">
-                                                    <i class="fa fa-check"></i> Oluştur
+                                            <div class="col-4">
+                                                <button onclick="CreateUniverse()" class="btn btn-outline-success" id="btnNewUniverse">
+                                                    <i class="fa fa-save"></i> Yarat
                                                 </button>
                                             </div>
+                                            <p class="col-12" id="callback" style="margin-top:15px">*Şu an hiçbir evreni genişletme izniniz yok. Lütfen bir tane yaratın.</p>
                                         </div>
                                     }
                                 </div>
@@ -80,7 +81,7 @@
                                     <h4 style="margin-top:10px">Dünya Adı</h4>
                                 </div>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="txtPlanetName" placeholder="ör: Dünya" value="@currentUser.Fullname Dünyası"/>
+                                    <input required type="text" class="form-control" name="txtPlanetName" placeholder="ör: Dünya" value="@currentUser.Fullname Dünyası" />
                                 </div>
                             </div>
                         </div>
@@ -115,7 +116,7 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-1">
                             <button class="btn btn-danger" type="submit">
                                 Oluştur
                             </button>
@@ -158,29 +159,19 @@
                 url: "@Url.Action("CreateWithApi", "Universe")",
                 type: "POST",
                 data: { txtUniverseName: $("#txtUniverseName").val() },
-                success: function (result) {
-                    if (result) {
+                success: function (data) {
+                    if (data > 0) {
                         $("#txtUniverseName").attr("disabled", "true");
-                        $("#btnNewUniverse").attr("disabled", "true");
+                        $("#btnNewUniverse").attr("disabled", "true").removeClass("btn-outline-success").addClass("btn-success");
+                        $("#btnNewUniverse > i").removeClass("fa-save").addClass("fa-check");
+                        $("#universeID").val(data);
+                        $("#callback").text("*Yeni evren başarıyla oluşturuldu.").addClass("text-success");
                     } else {
-
+                        $("#callback").text("*Bu isimde bir evren zaten var.").addClass("text-danger");
                     }
                 },
-                error: function (result) {
-                    if (result) {
-
-                    }
-                }
+                async: false
             });
-
-
-            @*$.post(
-                "@Url.Action("CreateWithApi", "Universe")",
-                { txtUniverseName: $("#txtUniverseName").val() },
-                function (data) {
-                    console.log(data);
-                }
-            );*@
         };
     </script>
 }

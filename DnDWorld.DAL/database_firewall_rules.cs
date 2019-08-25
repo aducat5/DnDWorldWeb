@@ -12,15 +12,13 @@ namespace DnDWorld.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Planet
+    public partial class database_firewall_rules
     {
-        public int PlanetID { get; set; }
-        public int UniverseID { get; set; }
-        public string Fullname { get; set; }
-        public int OwnerID { get; set; }
-        public bool IsPublic { get; set; }
-    
-        public virtual Universe Universe { get; set; }
-        public virtual User User { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string start_ip_address { get; set; }
+        public string end_ip_address { get; set; }
+        public System.DateTime create_date { get; set; }
+        public System.DateTime modify_date { get; set; }
     }
 }
