@@ -1,0 +1,72 @@
+﻿@model Planet
+@{
+    ViewBag.Title = Model.Fullname;
+    User currentUser = null;
+    bool isUserGranted = false;
+    if (Session["user"] != null)
+    {
+        currentUser = Session["user"] as User;
+        isUserGranted = currentUser.UserID == Model.OwnerID || UserRepo.IsUserAllowed(currentUser.UserID, Model.PlanetID, PermissionTypes.Read, ContentTypes.Planet);
+    }
+}
+
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/worldBack.png)" );>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h1 class="align-self-center">
+                    @if (Model.IsPublic)
+                    {
+                        <i class="fa fa-globe-europe text-white" id="publicSwitchIcon"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-lock text-danger" id="publicSwitchIcon"></i>
+                    }
+                    @Model.Fullname
+                    isimli dünyaya hoşgeldin.
+                </h1>
+                @if (Model.IsPublic || (currentUser != null && isUserGranted))
+                {
+                    <p>
+                        Bu evrenin sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), dünyannın kullanımı herkese açtı. Hemen yanındaki tuşları kullanarak dünyada bir karakter, npc veya macera oluşturabilirsiniz.
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        Bu dünyanın sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
+                    </p>
+                }
+            </div>
+            <div class="col-4 bg-secondary">
+                v
+            </div>
+            <div class="col-4 position-absolute" style="margin-top:50px;" id="toolTipContainer">
+
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+</section>
+
+@section pageScripts{
+    <script>
+        $publicIcon = $("#publicSwitchIcon");
+        var isPublic = @Model.IsPublic.ToString().ToLower();
+
+        if (isPublic) {
+            $tooltip = '<div class="alert alert-info">Bu simge dünyanın herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+        } else {
+            $tooltip = '<div class="alert alert-info">Bu simge dünyanın yaratıcısına özel olacağı anlamına gelir. Yaratıcısı siz değilseniz görüntülemek ve genişletmek için izin almanız gerekmektedir.</div > ';
+        }
+
+        $publicIcon.hover(function () {
+            $("#toolTipContainer").append($tooltip);
+        }, function () {
+            $("#toolTipContainer").html("");
+        });
+    </script>
+}

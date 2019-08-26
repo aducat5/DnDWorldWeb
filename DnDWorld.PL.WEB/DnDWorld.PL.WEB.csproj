@@ -444,6 +444,7 @@
     <Content Include="Views\Universe\ViewUniverse.cshtml" />
     <Content Include="Views\Planet\Create.cshtml" />
     <Content Include="Views\Profile\ViewProfile.cshtml" />
+    <Content Include="Views\Planet\ViewPlanet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

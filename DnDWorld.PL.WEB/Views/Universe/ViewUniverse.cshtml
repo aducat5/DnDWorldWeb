@@ -83,10 +83,7 @@
                                     </p>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="#" class="card-link">Dünyayı Gör</a>
-                                    <div class="btn-group">
-                                        <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
-                                    </div>
+                                    @Html.ActionLink("Dünyayı Gör", "ViewPlanet", "Planet", new { id = planet.PlanetID }, new { @class = "card-link" })
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
-﻿using DnDWorld.BLL.Repositories;
+﻿using DnDWorld.BLL.CustomExceptions;
+using DnDWorld.BLL.Repositories;
 using DnDWorld.BLL.Utility;
 using DnDWorld.BSL.Authorization;
 using DnDWorld.DAL;
@@ -47,6 +48,17 @@ namespace DnDWorld.PL.WEB.Controllers
                     return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
                 }
             }
+        }
+
+        public ActionResult ViewPlanet(string id = "0")
+        {
+            int planetID = id.ToInt();
+            if (planetID > 0 && planetRepo.DoesPlanetExists(planetID))
+            {
+                Planet planet = planetRepo.GetPlanet(planetID);
+                return View(planet);
+            }
+            else throw new PageNotFoundException();
         }
 
     }
