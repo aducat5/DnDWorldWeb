@@ -30,7 +30,7 @@ namespace DnDWorld.PL.WEB.Controllers
                 Planet newPlanet = new Planet()
                 {
                     Fullname = txtPlanetName,
-                    IsPublic = !chkIsPublic,
+                    IsPublic = chkIsPublic,
                     OwnerID = (Session["user"] as User).UserID,
                     UniverseID = uniID
 
@@ -38,7 +38,7 @@ namespace DnDWorld.PL.WEB.Controllers
                 bool sonuc = planetRepo.InsertPlanet(newPlanet, out string islemSonucu);
                 if (sonuc)
                 {
-                    return RedirectToAction("View", "Profile", new { uniState = "suc" });
+                    return RedirectToAction("ViewProfile", "Profile", new { uniState = "suc" });
                 }
                 else
                 {

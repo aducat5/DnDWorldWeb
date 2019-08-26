@@ -30,13 +30,13 @@ namespace DnDWorld.PL.WEB.Controllers
                 Universe newUniverse = new Universe()
                 {
                     Fullname = txtUniverseName,
-                    IsPublic = !chkIsPublic,
+                    IsPublic = chkIsPublic,
                     OwnerID = (Session["user"] as User).UserID
                 };
                 bool sonuc = universeRepo.InsertUniverse(newUniverse, out string islemSonucu);
                 if (sonuc)
                 {
-                    return RedirectToAction("View", "Profile", new { uniState = "suc" });
+                    return RedirectToAction("ViewProfile", "Profile", new { uniState = "suc" });
                 }
                 else
                 {
