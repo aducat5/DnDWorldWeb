@@ -8,7 +8,6 @@ namespace DnDWorld.PL.WEB.Controllers
 {
     public class ProfileController : Controller
     {
-        // GET: Profile
         public ActionResult ViewProfile()
         {
             return View();

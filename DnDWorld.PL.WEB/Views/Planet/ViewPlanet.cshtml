@@ -39,15 +39,50 @@
                     </p>
                 }
             </div>
-            <div class="col-4 bg-secondary">
-                v
+            <div class="col-4 text-white btn-group-vertical" id="toolBar">
+                @if (Model.IsPublic || (currentUser != null && isUserGranted))
+                {
+                    <button onclick="window.location.href = '@Url.Action("Create", "Planet", null)'" class="genric-btn danger btn-block" style="text-align:start;">
+                        <i class="fa fa-plus"></i>
+                        Bu Evrende Bir Gezegen Oluştur
+                    </button>
+                }
+                else
+                {
+                    <button class="genric-btn btn-block info" style="text-align:start;">
+                        <i class="fa fa-unlock"></i>
+                        Görüntüleme izni iste
+                    </button>
+                    <button class="genric-btn info btn-block" style="text-align:start;">
+                        <i class="fa fa-unlock"></i>
+                        Genişletme izni iste
+                    </button>
+                }
             </div>
             <div class="col-4 position-absolute" style="margin-top:50px;" id="toolTipContainer">
 
             </div>
         </div>
         <div class="row">
+            @if (Model.IsPublic || (currentUser != null && isUserGranted))
+            {
 
+            }
+            else
+            {
+                <div class="col-12" style="margin-top:100px">
+                    <div class="alert bg-dark">
+                        <div class="row">
+                            <div class="col-1 text-center text-danger">
+                                <i class="fa fa-lock fa-3x"></i>
+                            </div>
+                            <div class="col-11" style="padding-top:10px">
+                                <h4>Üzgünüm bu evrenin içeriğini görmek için izniniz yok. Üye olup sahibinden izin istemeniz gerekiyor.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>

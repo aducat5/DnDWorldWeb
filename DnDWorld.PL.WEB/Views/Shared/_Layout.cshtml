@@ -72,7 +72,7 @@
                             </div>
                             @if (currentUser != null)
                             {
-                                <a href="@Url.Action("Profile", "View")" class="genric-btn danger d-none d-sm-block">@currentUser.Fullname</a>
+                                <a href="@Url.Action("ViewProfile", "Profile", new { id = currentUser.UserID })" class="genric-btn danger d-none d-sm-block">@currentUser.Fullname</a>
                             }
                             else
                             {

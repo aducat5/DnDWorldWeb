@@ -39,7 +39,7 @@ namespace DnDWorld.PL.WEB.Controllers
                 bool sonuc = planetRepo.InsertPlanet(newPlanet, out string islemSonucu);
                 if (sonuc)
                 {
-                    return RedirectToAction("ViewProfile", "Profile", new { uniState = "suc" });
+                    return RedirectToAction("ViewProfile", "Profile", new { plaState = "suc" });
                 }
                 else
                 {
