@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DnDWorld.BLL.CustomExceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,7 @@ namespace DnDWorld.BSL.Authorization
                 return true;
             else
             {
-                httpContext.Response.Redirect("/Home/Index");
-                return false;
+                throw new LogoutRequiredException();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DnDWorld.BLL.Utility;
+using DnDWorld.BLL.CustomExceptions;
 using DnDWorld.DAL;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,9 @@ namespace DnDWorld.PL.WEB
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception exception = Server.GetLastError();
+            var exception = Server.GetLastError();
             int logTypeID = LogTypes.Error.ToInt();
+            Type exceptionType = exception.GetType();
             if (exception != null)
             {
                 EventLog errorLog = new EventLog()
@@ -35,6 +37,22 @@ namespace DnDWorld.PL.WEB
                     MachineName = Server.MachineName
                 };
                 Logger.Log(errorLog);
+
+                switch (exception.GetType().Name)
+                {
+                    case "PageNotFoundException":
+                        Response.Redirect("/Home/NotFound/");
+                        break;
+                    case "LoginRequiredException":
+                        Response.Redirect("/Sign/SignIn/");
+                        break;
+                    case "LogoutRequiredException":
+                        Response.Redirect("/Home/Index/");
+                        break;
+                    default:
+                        Response.Redirect("/Home/NotFound/");
+                        break;
+                }
             }
             else
             {
@@ -46,10 +64,8 @@ namespace DnDWorld.PL.WEB
                     MachineName = Server.MachineName,
                     Detail = "Bilinmeyen Hata"
                 };
-               
+                Response.Redirect("/Home/NotFound/");
             }
-            //TODO:Handle Later
-            Response.Redirect("/Home/NotFound/");
         }
     }
 }

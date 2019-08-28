@@ -8,13 +8,30 @@
         currentUser = Session["user"] as User;
         isUserGranted = currentUser.UserID == Model.OwnerID || UserRepo.IsUserAllowed(currentUser.UserID, Model.PlanetID, PermissionTypes.Read, ContentTypes.Planet);
     }
+    string desc = "";
+    if (Model.IsPublic)
+    {
+        desc += ", dünyannın kullanımı herkese açtı. Hemen yanındaki tuşları kullanarak dünyada bir karakter, npc veya macera oluşturabilirsin.";
+    }
+    else
+    {
+        desc += ", kendine özel olmasını tercih etti.";
+        if (isUserGranted)
+        {
+            desc += " Senin kullanım iznin var gibi görünüyor. Hemen yanındaki tuşları kullanarak dünyada bir karakter, npc veya macera oluşturabilirsin.";
+        }
+        else
+        {
+            desc += " İstersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.";
+        }
+    }
 }
 
 <section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/worldBack.png)" );>
     <div class="container">
         <div class="row">
             <div class="col-8">
-                <h1 class="align-self-center">
+                <h3 class="align-self-center">
                     @if (Model.IsPublic)
                     {
                         <i class="fa fa-globe-europe text-white" id="publicSwitchIcon"></i>
@@ -25,26 +42,19 @@
                     }
                     @Model.Fullname
                     isimli dünyaya hoşgeldin.
-                </h1>
-                @if (Model.IsPublic || (currentUser != null && isUserGranted))
-                {
-                    <p>
-                        Bu evrenin sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), dünyannın kullanımı herkese açtı. Hemen yanındaki tuşları kullanarak dünyada bir karakter, npc veya macera oluşturabilirsiniz.
-                    </p>
-                }
-                else
-                {
-                    <p>
-                        Bu dünyanın sahibi @Html.ActionLink(Model.User.Fullname, "ViewUser", "User", new { id = Model.OwnerID }, null), kendine özel olmasını tercih etti, istersen yandaki tuşlarla kendisinden kullanım hakları isteyebilirsin.
-                    </p>
-                }
+                </h3>
+                <p> Bu dünyanın sahibi @Html.ActionLink(Model.User.Fullname, "ViewProfile", "Profile", new { id = Model.User.UserID }, null)@desc</p>
             </div>
             <div class="col-4 text-white btn-group-vertical" id="toolBar">
                 @if (Model.IsPublic || (currentUser != null && isUserGranted))
                 {
                     <button onclick="window.location.href = '@Url.Action("Create", "Planet", null)'" class="genric-btn danger btn-block" style="text-align:start;">
                         <i class="fa fa-plus"></i>
-                        Bu Evrende Bir Gezegen Oluştur
+                        Bu Gezegende Bir Macera Başlat
+                    </button>
+                    <button onclick="window.location.href = '@Url.Action("Create", "Planet", null)'" class="genric-btn danger btn-block" style="text-align:start;">
+                        <i class="fa fa-plus"></i>
+                        Bu Gezegen Hikayesine Katkıda Bulun
                     </button>
                 }
                 else

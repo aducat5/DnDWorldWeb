@@ -73,5 +73,11 @@
   <ItemGroup>
     <Folder Include="Authentication\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DnDWorld.BLL\DnDWorld.BLL.csproj">
+      <Project>{C5C4A8E4-6298-41F1-961D-055BD155DB2F}</Project>
+      <Name>DnDWorld.BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
