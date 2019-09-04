@@ -48,24 +48,38 @@ namespace DnDWorld.BLL.Repositories
             else return null;
         }
 
-        public List<Planet> GetPlanetsByUser(int userID)
+        public List<Planet> GetPlanets(int userID)
         {
             List<Planet> planetsOfUser = db.Planets.Where(p => p.OwnerID == userID).ToList();
             if (planetsOfUser.Count > 0) return planetsOfUser;
             else return null;
         }
 
-        public List<Planet> GetGrantedPlanetsByUser(int userID)
+        public List<Planet> GetPlanets(int userID, PermissionTypes permissionType)
         {
             List<Planet> planets = db.Planets.ToList();
             foreach (Planet planet in planets)
             {
-                if (planet.IsPublic == false && planet.OwnerID != userID && !UserRepo.IsUserAllowed(userID, planet.PlanetID, PermissionTypes.Extend, ContentTypes.Planet))
+                if (planet.IsPublic == false && planet.OwnerID != userID && !UserRepo.IsUserAllowed(userID, planet.PlanetID, permissionType, ContentTypes.Planet))
                 {
                     planets.Remove(planet);
                 }
             }
             return planets;
         }
+
+        public List<Planet> GetPlanets(int userID, int universeID, PermissionTypes permissionType)
+        {
+            List<Planet> planets = db.Planets.Where(p => p.UniverseID == universeID).ToList();
+            foreach (Planet planet in planets)
+            {
+                if (planet.IsPublic == false && planet.OwnerID != userID && !UserRepo.IsUserAllowed(userID, planet.PlanetID, permissionType, ContentTypes.Planet))
+                {
+                    planets.Remove(planet);
+                }
+            }
+            return planets;
+        }
+
     }
 }

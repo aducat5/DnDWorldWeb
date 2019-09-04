@@ -3,6 +3,7 @@ using DnDWorld.BLL.Repositories;
 using DnDWorld.BLL.Utility;
 using DnDWorld.BSL.Authorization;
 using DnDWorld.DAL;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace DnDWorld.PL.WEB.Controllers
@@ -59,6 +60,25 @@ namespace DnDWorld.PL.WEB.Controllers
                 return View(planet);
             }
             else throw new PageNotFoundException();
+        }
+
+        [UserAuth]
+        public JsonResult GetPlanets(string universeID)
+        {
+            User currentUser = Session["user"] as User;
+            List<Planet> planets = planetRepo.GetPlanets(currentUser.UserID, universeID.ToInt(), PermissionTypes.Extend);
+            List<Planet> planetDTO = new List<Planet>();
+            foreach (Planet planet in planets)
+            {
+                planetDTO.Add(new Planet() {
+                    Fullname = planet.Fullname,
+                    IsPublic = planet.IsPublic,
+                    OwnerID = planet.OwnerID,
+                    PlanetID = planet.PlanetID,
+                    UniverseID = planet.UniverseID
+                });
+            }
+            return Json(planetDTO, JsonRequestBehavior.AllowGet);
         }
 
     }

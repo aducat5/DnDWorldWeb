@@ -60,7 +60,6 @@
                                 </div>
                                 <div class="col-8">
                                     <select required name="planetID" class="wide" id="planetList">
-                                        <option value="0">Lütfen Evren Seçiniz</option>
                                     </select>
                                 </div>
                             </div>
@@ -155,11 +154,33 @@
                     $('#universeList').append($opt);
                     $('#universeList').niceSelect('update');
                 });
+                LoadPlanets();
             }
         });
 
         function LoadPlanets() {
-            console.log($("#universeList").val());
+            var uniID = $('#universeList').val();
+            $.ajax({
+                url: "@Url.Action("GetPlanets", "Planet")?universeID=" + uniID,
+                type: "GET",
+                success: function (data) {
+                    $('#planetList').empty();
+
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            $opt = "<option value='" + data[index].PlanetID + "'>" + data[index].Fullname + "</option>";
+                            $('#planetList').append($opt);
+                            $('#planetList').removeAttr("disabled");
+                        });
+                    } else {
+                        $('#planetList').attr("disabled", "true");
+                    }
+                    
+                    $opt = "<option value='0'>Evren Gezgini</option>";
+                    $('#planetList').append($opt);
+                    $('#planetList').niceSelect('update');
+                }
+            });
         }
     </script>
 }
