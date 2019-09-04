@@ -70,15 +70,16 @@ namespace DnDWorld.BLL.Repositories
 
         public List<Planet> GetPlanets(int userID, int universeID, PermissionTypes permissionType)
         {
-            List<Planet> planets = db.Planets.Where(p => p.UniverseID == universeID).ToList();
-            foreach (Planet planet in planets)
+            List<Planet> planetsOfUniverse = db.Planets.Where(p => p.UniverseID == universeID).ToList();
+            List<Planet> granteds = new List<Planet>();
+            foreach (Planet planet in planetsOfUniverse)
             {
-                if (planet.IsPublic == false && planet.OwnerID != userID && !UserRepo.IsUserAllowed(userID, planet.PlanetID, permissionType, ContentTypes.Planet))
+                if (planet.IsPublic || planet.OwnerID == userID || UserRepo.IsUserAllowed(userID, universeID, permissionType, ContentTypes.Planet))
                 {
-                    planets.Remove(planet);
+                    granteds.Add(planet);
                 }
             }
-            return planets;
+            return granteds;
         }
 
     }
