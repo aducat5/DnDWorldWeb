@@ -13,14 +13,14 @@ namespace DnDWorld.BLL.Repositories
         DnDWorldDBEntities db = DBTools.DBInstance;
         public bool DoesPlanetExists(int universeID, string planetName)
         {
-            planetName = GenFunx.ClearText(planetName);
+            planetName = planetName.ClearText();
             return db.Planets.Any(p => p.UniverseID == universeID && p.Fullname == planetName);
         }
         public bool DoesPlanetExists(int planetID) => db.Planets.Any(p => p.PlanetID == planetID);
 
         public bool InsertPlanet(Planet newPlanet, out string islemSonucu)
         {
-            newPlanet.Fullname = GenFunx.ClearText(newPlanet.Fullname);
+            newPlanet.Fullname = newPlanet.Fullname.ClearText();
             if (!DoesPlanetExists(newPlanet.UniverseID, newPlanet.Fullname))
             {
                 db.Planets.Add(newPlanet);
@@ -48,11 +48,24 @@ namespace DnDWorld.BLL.Repositories
             else return null;
         }
 
-        public List<Planet> GetPlanetsByUser(int userID, int planetID)
+        public List<Planet> GetPlanetsByUser(int userID)
         {
             List<Planet> planetsOfUser = db.Planets.Where(p => p.OwnerID == userID).ToList();
             if (planetsOfUser.Count > 0) return planetsOfUser;
             else return null;
+        }
+
+        public List<Planet> GetGrantedPlanetsByUser(int userID)
+        {
+            List<Planet> planets = db.Planets.ToList();
+            foreach (Planet planet in planets)
+            {
+                if (planet.IsPublic == false && planet.OwnerID != userID && !UserRepo.IsUserAllowed(userID, planet.PlanetID, PermissionTypes.Extend, ContentTypes.Planet))
+                {
+                    planets.Remove(planet);
+                }
+            }
+            return planets;
         }
     }
 }

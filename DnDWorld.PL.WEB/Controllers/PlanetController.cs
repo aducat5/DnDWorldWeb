@@ -13,7 +13,7 @@ namespace DnDWorld.PL.WEB.Controllers
         UniverseRepo universeRepo = new UniverseRepo();
 
         [UserAuth]
-        public ActionResult Create() => View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+        public ActionResult Create() => View(universeRepo.GetUniverses((Session["user"] as User).UserID));
 
 
         [UserAuth, HttpPost]
@@ -24,7 +24,7 @@ namespace DnDWorld.PL.WEB.Controllers
             {
                 ViewBag.AlertMessage = "Bu isim zaten kullanımda";
                 ViewBag.AlertClass = "alert alert-danger";
-                return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+                return View(universeRepo.GetUniverses((Session["user"] as User).UserID));
             }
             else
             {
@@ -45,7 +45,7 @@ namespace DnDWorld.PL.WEB.Controllers
                 {
                     ViewBag.AlertMessage = islemSonucu;
                     ViewBag.AlertClass = "alert alert-danger";
-                    return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+                    return View(universeRepo.GetUniverses((Session["user"] as User).UserID));
                 }
             }
         }

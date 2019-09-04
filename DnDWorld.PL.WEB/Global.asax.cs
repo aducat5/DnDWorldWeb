@@ -25,7 +25,6 @@ namespace DnDWorld.PL.WEB
         {
             var exception = Server.GetLastError();
             int logTypeID = LogTypes.Error.ToInt();
-            Type exceptionType = exception.GetType();
             if (exception != null)
             {
                 EventLog errorLog = new EventLog()

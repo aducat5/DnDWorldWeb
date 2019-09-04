@@ -6,6 +6,7 @@ using DnDWorld.BLL.Utility;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace DnDWorld.PL.WEB.Controllers
 {
@@ -14,7 +15,7 @@ namespace DnDWorld.PL.WEB.Controllers
         UniverseRepo universeRepo = new UniverseRepo();
 
         [UserAuth]
-        public ActionResult Create() => View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+        public ActionResult Create() => View(universeRepo.GetUniverses((Session["user"] as User).UserID));
 
         [UserAuth, HttpPost]
         public ActionResult Create(string txtUniverseName, bool chkIsPublic = false)
@@ -23,7 +24,7 @@ namespace DnDWorld.PL.WEB.Controllers
             {
                 ViewBag.AlertMessage = "Bu isim zaten kullanımda";
                 ViewBag.AlertClass = "alert alert-danger";
-                return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+                return View(universeRepo.GetUniverses((Session["user"] as User).UserID));
             }
             else
             {
@@ -42,7 +43,7 @@ namespace DnDWorld.PL.WEB.Controllers
                 {
                     ViewBag.AlertMessage = islemSonucu;
                     ViewBag.AlertClass = "alert alert-danger";
-                    return View(universeRepo.GetUniversesByUser((Session["user"] as User).UserID));
+                    return View(universeRepo.GetUniverses((Session["user"] as User).UserID));
                 }
             }
         }
@@ -80,6 +81,25 @@ namespace DnDWorld.PL.WEB.Controllers
                 return View(universe);
             }
             else throw new PageNotFoundException();
+        }
+
+        [UserAuth]
+        public JsonResult GetExtendableUniverses()
+        {
+            User user = Session["user"] as User;
+            List<Universe> universes = universeRepo.GetUniverses(user.UserID, PermissionTypes.Extend);
+            List<Universe> universesDTO = new List<Universe>();
+            foreach (Universe universe in universes)
+            {
+                universesDTO.Add(new Universe()
+                {
+                    Fullname = universe.Fullname,
+                    IsPublic = universe.IsPublic,
+                    OwnerID = universe.OwnerID,
+                    UniverseID = universe.UniverseID
+                });
+            }
+            return Json(universesDTO, JsonRequestBehavior.AllowGet);
         }
     }
 }

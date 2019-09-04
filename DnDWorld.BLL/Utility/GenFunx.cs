@@ -14,7 +14,7 @@ namespace DnDWorld.BLL.Utility
             return Convert.ToInt32(stringValue);
         }
 
-        public static string ClearText(string text)
+        public static string ClearText(this string text)
         {
             return text.Trim(' ', '.', ';', '&', '*', '/');
         }

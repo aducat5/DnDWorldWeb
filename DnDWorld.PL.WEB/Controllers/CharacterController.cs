@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DnDWorld.BLL.Repositories;
+using DnDWorld.BSL.Authorization;
+using DnDWorld.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +11,15 @@ namespace DnDWorld.PL.WEB.Controllers
 {
     public class CharacterController : Controller
     {
-        // GET: Character
+        PlanetRepo pr = new PlanetRepo();
+
+        [UserAuth]
         public ActionResult Create()
         {
+            User currentUser = Session["user"] as User;
+
+
+
             return View();
         }
     }

@@ -12,23 +12,19 @@ namespace DnDWorld.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Planet
+    public partial class Campaign
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Planet()
-        {
-            this.Campaigns = new HashSet<Campaign>();
-        }
-    
-        public int PlanetID { get; set; }
-        public int UniverseID { get; set; }
+        public int CampaignID { get; set; }
         public string Fullname { get; set; }
         public int OwnerID { get; set; }
-        public bool IsPublic { get; set; }
+        public int UniverseID { get; set; }
+        public int PlanetID { get; set; }
+        public System.DateTime CreateDate { get; set; }
+        public System.DateTime UpdateDate { get; set; }
+        public bool IsOpen { get; set; }
+        public bool IsDeleted { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Campaign> Campaigns { get; set; }
+        public virtual Planet Planet { get; set; }
         public virtual Universe Universe { get; set; }
-        public virtual User User { get; set; }
     }
 }

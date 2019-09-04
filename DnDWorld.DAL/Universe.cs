@@ -17,6 +17,7 @@ namespace DnDWorld.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Universe()
         {
+            this.Campaigns = new HashSet<Campaign>();
             this.Planets = new HashSet<Planet>();
         }
     
@@ -25,6 +26,8 @@ namespace DnDWorld.DAL
         public int OwnerID { get; set; }
         public bool IsPublic { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Campaign> Campaigns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Planet> Planets { get; set; }
         public virtual User User { get; set; }

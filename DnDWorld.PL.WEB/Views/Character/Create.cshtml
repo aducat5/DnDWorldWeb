@@ -1,7 +1,165 @@
-﻿
+﻿@model List<Universe>
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Yeni Karakter";
+    User currentUser = Session["user"] as User;
 }
 
-<h2>Create</h2>
+@section pageStyles{
 
+}
+
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/worldBack.png)" );>
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.AlertMessage != null)
+            {
+                <div class="container">
+
+                    <div class="@ViewBag.AlertClass alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @ViewBag.AlertMessage
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-12 align-self-center">
+                <div class="section_tittle">
+                    <h2>Yeni bir karakter oluştur</h2>
+                </div>
+
+                @using (Html.BeginForm("Create", "Character", FormMethod.Post, null))
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Karakter Bilgileri</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-user-astronaut fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Evren</h4>
+                                </div>
+                                <div class="col-8">
+                                    <select required name="universeID" onchange="LoadPlanets()" class="wide" id="universeList">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-globe-asia fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Dünya</h4>
+                                </div>
+                                <div class="col-8">
+                                    <select required name="planetID" class="wide" id="planetList">
+                                        <option value="0">Lütfen Evren Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-user fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Karakter Adı</h4>
+                                </div>
+                                <div class="col-8">
+                                    <input required type="text" class="form-control" name="txtCharacterName" placeholder="ör: Samet Aybaba" value="@currentUser.Fullname Karakteri" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Erişim ayarları</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></i>
+                                </div>
+                                <div class="col-4">
+                                    <p id="publicSwitchLabel">Herkese Açık</p>
+                                </div>
+                                <div class="col-2" style="margin-top:6px">
+                                    <div class="single-element-widget">
+                                        <div class="switch-wrap">
+                                            <div class="primary-switch">
+                                                <input type="checkbox" value="true" id="publicSwitch" name="chkIsPublic" checked>
+                                                <label for="publicSwitch"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-absolute" style="margin-top:50px" id="toolTipContainer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-1">
+                            <button class="btn btn-danger" type="submit">
+                                Oluştur
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section pageScripts{
+    <script>
+        $publicIcon = $("#publicSwitchIcon");
+        $publicSwitch = $("#publicSwitch");
+        $publicLabel = $("#publicSwitchLabel");
+
+        $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+
+        $publicSwitch.on("click", function () {
+            if ($publicIcon.hasClass("fa-lock")) {
+                $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
+                $publicLabel.text("Herkese Açık");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+            } else {
+                $publicIcon.removeClass("fa-globe-asia").addClass("fa-lock");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin size özel olacağı anlamına gelir. Yalnızca siz görür ve genişletirsiniz.</div > ';
+                $publicLabel.text("Özel Evren");
+            }
+        });
+
+        $publicIcon.hover(function () {
+            $("#toolTipContainer").append($tooltip);
+        }, function () {
+            $("#toolTipContainer").html("");
+            });
+
+        $.ajax({
+            url: "@Url.Action("GetExtendableUniverses", "Universe")",
+            type: "GET",
+            success: function (data) {
+                $.each(data, function (index) {
+                    $opt = "<option value='" + data[index].UniverseID + "'>" + data[index].Fullname + "</option>";
+                    $('#universeList').append($opt);
+                    $('#universeList').niceSelect('update');
+                });
+            }
+        });
+
+        function LoadPlanets() {
+            console.log($("#universeList").val());
+        }
+    </script>
+}

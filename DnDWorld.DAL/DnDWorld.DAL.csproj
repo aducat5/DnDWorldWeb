@@ -53,6 +53,9 @@
     <Compile Include="AuthType.cs">
       <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Campaign.cs">
+      <DependentUpon>DnDWorldDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Character.cs">
       <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
@@ -69,9 +72,6 @@
       <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ContentType.cs">
-      <DependentUpon>DnDWorldDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database_firewall_rules.cs">
       <DependentUpon>DnDWorldDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Description.cs">

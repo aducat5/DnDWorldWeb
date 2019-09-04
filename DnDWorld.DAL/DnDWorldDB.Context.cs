@@ -26,6 +26,7 @@ namespace DnDWorld.DAL
         }
     
         public virtual DbSet<AuthType> AuthTypes { get; set; }
+        public virtual DbSet<Campaign> Campaigns { get; set; }
         public virtual DbSet<CharacterClass> CharacterClasses { get; set; }
         public virtual DbSet<CharacterDescription> CharacterDescriptions { get; set; }
         public virtual DbSet<CharacterItem> CharacterItems { get; set; }
@@ -47,6 +48,5 @@ namespace DnDWorld.DAL
         public virtual DbSet<Universe> Universes { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     }
 }
