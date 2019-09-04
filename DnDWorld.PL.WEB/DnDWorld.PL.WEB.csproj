@@ -279,6 +279,7 @@
     <Content Include="Content\img\Shape_text.png" />
     <Content Include="Content\img\signupback.jpg" />
     <Content Include="Content\img\universeBack.png" />
+    <Content Include="Content\img\characterBack.png" />
     <Content Include="Content\img\war_logo_1.png" />
     <Content Include="Content\img\war_logo_2.png" />
     <Content Include="Content\img\worldBack.png" />

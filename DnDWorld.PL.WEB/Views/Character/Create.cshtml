@@ -8,7 +8,7 @@
 
 }
 
-<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/worldBack.png)" );>
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/characterBack.png)" );>
     <div class="container">
         <div class="row">
             @if (ViewBag.AlertMessage != null)
@@ -73,6 +73,37 @@
                                 </div>
                                 <div class="col-8">
                                     <input required type="text" class="form-control" name="txtCharacterName" placeholder="ör: Samet Aybaba" value="@currentUser.Fullname Karakteri" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-chevron-circle-up fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Deneyim Puanı</h4>
+                                </div>
+                                <div class="col-8">
+                                    <input onchange="LevelSet()" id="level" type="number" name="level" value="1" class="form-control" min="1" max="20" required />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <i class="fa fa-flask fa-2x text-danger"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Deneyim Puanı</h4>
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <input type="range" min="0" max="10000" name="experience" onchange="RangeLabelSet()" id="expRange" class="custom-range" />
+                                        </div>
+                                        <div class="col-3">
+                                            <h4 id="expLabel"></h4>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -182,5 +213,42 @@
                 }
             });
         }
+
+        function RangeLabelSet() {
+            $("#expLabel").text($("#expRange").val());
+        }
+
+        function LevelSet() {
+            var level = $("#level").val();
+
+            $("#expRange").attr("min", levelBorders[level - 1]);
+            $("#expRange").attr("max", levelBorders[level] - 1);
+            
+            RangeLabelSet();
+        }
+
+        var levelBorders = [
+            0,
+            300,
+            900,
+            2700,
+            6500,
+            14000,
+            23000,
+            48000,
+            64000,
+            85000,
+            100000,
+            120000,
+            140000,
+            165000,
+            195000,
+            225000,
+            265000,
+            305000,
+            355000
+        ];
+
+        LevelSet();
     </script>
 }
