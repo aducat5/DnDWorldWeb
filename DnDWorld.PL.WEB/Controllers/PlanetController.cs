@@ -68,15 +68,19 @@ namespace DnDWorld.PL.WEB.Controllers
             User currentUser = Session["user"] as User;
             List<Planet> planets = planetRepo.GetPlanets(currentUser.UserID, universeID.ToInt(), PermissionTypes.Extend);
             List<Planet> planetDTO = new List<Planet>();
-            foreach (Planet planet in planets)
+            if (planets != null)
             {
-                planetDTO.Add(new Planet() {
-                    Fullname = planet.Fullname,
-                    IsPublic = planet.IsPublic,
-                    OwnerID = planet.OwnerID,
-                    PlanetID = planet.PlanetID,
-                    UniverseID = planet.UniverseID
-                });
+                foreach (Planet planet in planets)
+                {
+                    planetDTO.Add(new Planet()
+                    {
+                        Fullname = planet.Fullname,
+                        IsPublic = planet.IsPublic,
+                        OwnerID = planet.OwnerID,
+                        PlanetID = planet.PlanetID,
+                        UniverseID = planet.UniverseID
+                    });
+                }
             }
             return Json(planetDTO, JsonRequestBehavior.AllowGet);
         }
