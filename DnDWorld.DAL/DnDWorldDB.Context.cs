@@ -44,6 +44,7 @@ namespace DnDWorld.DAL
         public virtual DbSet<PermissionType> PermissionTypes { get; set; }
         public virtual DbSet<Planet> Planets { get; set; }
         public virtual DbSet<Race> Races { get; set; }
+        public virtual DbSet<Subrace> Subraces { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Universe> Universes { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }

@@ -39,7 +39,7 @@ namespace DnDWorld.DAL
         public virtual ICollection<CharacterDescription> CharacterDescriptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterItem> CharacterItems { get; set; }
-        public virtual Race Race { get; set; }
+        public virtual Subrace Subrace { get; set; }
         public virtual User User { get; set; }
     }
 }

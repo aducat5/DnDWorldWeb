@@ -180,6 +180,16 @@
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="PicturePath" Type="text" />
         </EntityType>
+        <EntityType Name="Subraces">
+          <Key>
+            <PropertyRef Name="SubraceID" />
+          </Key>
+          <Property Name="SubraceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaceID" Type="int" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PicturePath" Type="text" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -317,12 +327,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Characters_Races">
-          <End Role="Races" Type="Self.Races" Multiplicity="1" />
+        <Association Name="FK_Characters_Subraces">
+          <End Role="Subraces" Type="Self.Subraces" Multiplicity="1" />
           <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="RaceID" />
+            <Principal Role="Subraces">
+              <PropertyRef Name="SubraceID" />
             </Principal>
             <Dependent Role="Characters">
               <PropertyRef Name="RaceID" />
@@ -461,6 +471,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subraces_Races">
+          <End Role="Races" Type="Self.Races" Multiplicity="1" />
+          <End Role="Subraces" Type="Self.Subraces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="RaceID" />
+            </Principal>
+            <Dependent Role="Subraces">
+              <PropertyRef Name="RaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Universes_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Universes" Type="Self.Universes" Multiplicity="*" />
@@ -517,6 +539,7 @@
           <EntitySet Name="PermissionTypes" EntityType="Self.PermissionTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Planets" EntityType="Self.Planets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Races" EntityType="Self.Races" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subraces" EntityType="Self.Subraces" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universes" EntityType="Self.Universes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogins" Schema="dbo" store:Type="Tables" />
@@ -553,8 +576,8 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="CharacterItems" EntitySet="CharacterItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_Characters_Races" Association="Self.FK_Characters_Races">
-            <End Role="Races" EntitySet="Races" />
+          <AssociationSet Name="FK_Characters_Subraces" Association="Self.FK_Characters_Subraces">
+            <End Role="Subraces" EntitySet="Subraces" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
@@ -600,6 +623,10 @@
           <AssociationSet Name="FK_Planets_Users" Association="Self.FK_Planets_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Planets" EntitySet="Planets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subraces_Races" Association="Self.FK_Subraces_Races">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Subraces" EntitySet="Subraces" />
           </AssociationSet>
           <AssociationSet Name="FK_Universes_Users" Association="Self.FK_Universes_Users">
             <End Role="Users" EntitySet="Users" />
@@ -691,7 +718,7 @@
           <NavigationProperty Name="CharacterClasses" Relationship="Self.FK_CharacterClasses_Characters" FromRole="Characters" ToRole="CharacterClasses" />
           <NavigationProperty Name="CharacterDescriptions" Relationship="Self.FK_CharacterDescriptions_Characters" FromRole="Characters" ToRole="CharacterDescriptions" />
           <NavigationProperty Name="CharacterItems" Relationship="Self.FK_CharacterItems_Characters" FromRole="Characters" ToRole="CharacterItems" />
-          <NavigationProperty Name="Race" Relationship="Self.FK_Characters_Races" FromRole="Characters" ToRole="Races" />
+          <NavigationProperty Name="Subrace" Relationship="Self.FK_Characters_Subraces" FromRole="Characters" ToRole="Subraces" />
           <NavigationProperty Name="User" Relationship="Self.FK_Characters_Users" FromRole="Characters" ToRole="Users" />
         </EntityType>
         <EntityType Name="Class">
@@ -826,7 +853,19 @@
           <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Races" FromRole="Races" ToRole="Characters" />
+          <NavigationProperty Name="Subraces" Relationship="Self.FK_Subraces_Races" FromRole="Races" ToRole="Subraces" />
+        </EntityType>
+        <EntityType Name="Subrace">
+          <Key>
+            <PropertyRef Name="SubraceID" />
+          </Key>
+          <Property Name="SubraceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RaceID" Type="Int32" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Subraces" FromRole="Subraces" ToRole="Characters" />
+          <NavigationProperty Name="Race" Relationship="Self.FK_Subraces_Races" FromRole="Subraces" ToRole="Races" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -989,12 +1028,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Characters_Races">
-          <End Role="Races" Type="Self.Race" Multiplicity="1" />
+        <Association Name="FK_Characters_Subraces">
+          <End Role="Subraces" Type="Self.Subrace" Multiplicity="1" />
           <End Role="Characters" Type="Self.Character" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="RaceID" />
+            <Principal Role="Subraces">
+              <PropertyRef Name="SubraceID" />
             </Principal>
             <Dependent Role="Characters">
               <PropertyRef Name="RaceID" />
@@ -1133,6 +1172,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subraces_Races">
+          <End Role="Races" Type="Self.Race" Multiplicity="1" />
+          <End Role="Subraces" Type="Self.Subrace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="RaceID" />
+            </Principal>
+            <Dependent Role="Subraces">
+              <PropertyRef Name="RaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Universes_Users">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="Universes" Type="Self.Universe" Multiplicity="*" />
@@ -1177,6 +1228,7 @@
           <EntitySet Name="PermissionTypes" EntityType="Self.PermissionType" />
           <EntitySet Name="Planets" EntityType="Self.Planet" />
           <EntitySet Name="Races" EntityType="Self.Race" />
+          <EntitySet Name="Subraces" EntityType="Self.Subrace" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Universes" EntityType="Self.Universe" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogin" />
@@ -1217,8 +1269,8 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="CharacterItems" EntitySet="CharacterItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_Characters_Races" Association="Self.FK_Characters_Races">
-            <End Role="Races" EntitySet="Races" />
+          <AssociationSet Name="FK_Characters_Subraces" Association="Self.FK_Characters_Subraces">
+            <End Role="Subraces" EntitySet="Subraces" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
@@ -1264,6 +1316,10 @@
           <AssociationSet Name="FK_Planets_Users" Association="Self.FK_Planets_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Planets" EntitySet="Planets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subraces_Races" Association="Self.FK_Subraces_Races">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Subraces" EntitySet="Subraces" />
           </AssociationSet>
           <AssociationSet Name="FK_Universes_Users" Association="Self.FK_Universes_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1471,6 +1527,17 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PicturePath" ColumnName="PicturePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subraces">
+            <EntityTypeMapping TypeName="DnDWorldDBModel.Subrace">
+              <MappingFragment StoreEntitySet="Subraces">
+                <ScalarProperty Name="SubraceID" ColumnName="SubraceID" />
+                <ScalarProperty Name="RaceID" ColumnName="RaceID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="PicturePath" ColumnName="PicturePath" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,20 +12,22 @@ namespace DnDWorld.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Race
+    public partial class Subrace
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Race()
+        public Subrace()
         {
-            this.Subraces = new HashSet<Subrace>();
+            this.Characters = new HashSet<Character>();
         }
     
+        public int SubraceID { get; set; }
         public int RaceID { get; set; }
         public string Fullname { get; set; }
-        public string Description { get; set; }
         public string PicturePath { get; set; }
+        public string Source { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Subrace> Subraces { get; set; }
+        public virtual ICollection<Character> Characters { get; set; }
+        public virtual Race Race { get; set; }
     }
 }
