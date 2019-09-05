@@ -66,7 +66,6 @@ namespace DnDWorld.BLL.Repositories
                 p.GrantedUserID == userID
             );
         }
-
         public bool DeleteUser(int id, out string islemSonucu)
         {
             bool sonuc = false;
