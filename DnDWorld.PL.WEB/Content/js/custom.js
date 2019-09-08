@@ -93,8 +93,8 @@
       autoplayTimeout: 5000,
       nav: true,
       navText: [
-        '<i class="fas fa-caret-left"></i>',
-        '<i class="fas fa-caret-right"></i>'
+        '<em class="fas fa-caret-left"></em>',
+        '<em class="fas fa-caret-right"></em>'
       ],
       margin: 15,
       responsive: {

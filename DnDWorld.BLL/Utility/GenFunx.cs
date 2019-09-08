@@ -28,7 +28,7 @@ namespace DnDWorld.BLL.Utility
             }
             catch (Exception)
             {
-
+                //returns 0 if cannot convert
             }
             return val;
         }

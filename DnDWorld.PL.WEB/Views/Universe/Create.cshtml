@@ -7,7 +7,7 @@
 @section pageStyles{
 }
 
-<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png)" );>
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/background/universe.png)" );>
     <div class="container">
         <div class="row">
             @if (ViewBag.AlertMessage != null)
@@ -52,7 +52,7 @@
                             <hr class="bg-white" />
                             <div class="row">
                                 <div class="col-1" style="margin-top:6px">
-                                    <i class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></i>
+                                    <em class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></em>
                                 </div>
                                 <div class="col-4">
                                     <p id="publicSwitchLabel">Herkese Açık</p>
@@ -103,11 +103,11 @@
                                         <a class="btn btn-danger" href="@Url.Action("ViewUniverse", "Universe", new { id = universe.UniverseID })">
                                             @if (universe.IsPublic)
                                             {
-                                                <i class="fa fa-globe-europe fa-fw"></i>
+                                                <em class="fa fa-globe-europe fa-fw"></em>
                                             }
                                             else
                                             {
-                                                <i class="fa fa-lock fa-fw"></i>
+                                                <em class="fa fa-lock fa-fw"></em>
                                             }
                                             @universe.Fullname
                                         </a>

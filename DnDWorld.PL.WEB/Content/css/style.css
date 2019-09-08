@@ -2572,7 +2572,7 @@ ul {
 /* line 2, ../../01 cl html template/03_jun 2019/186_Gaiming_html/sass/_banner.scss */
 .banner_part {
     position: relative;
-    background-image: url(../img/banner_bg.png);
+    background-image: url(../img/background/banner.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: right;
@@ -6511,7 +6511,7 @@ h1, h2, h3, h4, h5, h6 {
 .card-signin .card-img-left {
     width: 45%;
     /* Link to your background image using in the property below! */
-    background: scroll center url('/Content/img/signupback.jpg');
+    background: scroll center url('/Content/img/background/sign.jpg');
     background-size: cover;
 }
 

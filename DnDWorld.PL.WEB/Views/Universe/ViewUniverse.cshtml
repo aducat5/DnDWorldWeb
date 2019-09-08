@@ -13,18 +13,18 @@
 }
 
 
-<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/universeBack.png); min-height:700px">
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/background/universe.png); min-height:700px">
     <div class="container">
         <div class="row">
             <div class="col-8">
                 <h1 class="align-self-center">
                     @if (Model.IsPublic)
                     {
-                        <i class="fa fa-globe-europe text-white" id="publicSwitchIcon"></i>
+                        <em class="fa fa-globe-europe text-white" id="publicSwitchIcon"></em>
                     }
                     else
                     {
-                        <i class="fa fa-lock text-danger" id="publicSwitchIcon"></i>
+                        <em class="fa fa-lock text-danger" id="publicSwitchIcon"></em>
                     }
                     @Model.Fullname
                     isimli evrene hoşgeldin.
@@ -46,18 +46,18 @@
                 @if (Model.IsPublic || (currentUser != null && isUserGranted))
                 {
                     <button onclick="window.location.href = '@Url.Action("Create", "Planet", null)'" class="genric-btn danger btn-block" style="text-align:start;">
-                        <i class="fa fa-plus"></i>
+                        <em class="fa fa-plus"></em>
                         Bu Evrende Bir Gezegen Oluştur
                     </button>
                 }
                 else
                 {
                     <button class="genric-btn btn-block info" style="text-align:start;">
-                        <i class="fa fa-unlock"></i>
+                        <em class="fa fa-unlock"></em>
                         Görüntüleme izni iste
                     </button>
                     <button class="genric-btn info btn-block" style="text-align:start;">
-                        <i class="fa fa-unlock"></i>
+                        <em class="fa fa-unlock"></em>
                         Genişletme izni iste
                     </button>
                 }
@@ -95,7 +95,7 @@
                         <div class="alert bg-dark">
                             <div class="row">
                                 <div class="col-1 text-center text-white">
-                                    <i class="fa fa-baby fa-3x"></i>
+                                    <em class="fa fa-baby fa-3x"></em>
                                 </div>
                                 <div class="col-11" style="padding-top:10px">
                                     <h4>Bu evrende henüz bir gezegen oluşmamış. Kendileri pek bir genç...</h4>
@@ -111,7 +111,7 @@
                     <div class="alert bg-dark">
                         <div class="row">
                             <div class="col-1 text-center text-danger">
-                                <i class="fa fa-lock fa-3x"></i>
+                                <em class="fa fa-lock fa-3x"></em>
                             </div>
                             <div class="col-11" style="padding-top:10px">
                                 <h4>Üzgünüm bu evrenin içeriğini görmek için izniniz yok. Üye olup sahibinden izin istemeniz gerekiyor.</h4>
