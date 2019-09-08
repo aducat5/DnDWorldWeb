@@ -13,10 +13,10 @@ namespace DnDWorld.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DnDWorldDBEntities : DbContext
+    public partial class DNDWDBEntities : DbContext
     {
-        public DnDWorldDBEntities()
-            : base("name=DnDWorldDBEntities")
+        public DNDWDBEntities()
+            : base("name=DNDWDBEntities")
         {
         }
     
@@ -44,6 +44,7 @@ namespace DnDWorld.DAL
         public virtual DbSet<PermissionType> PermissionTypes { get; set; }
         public virtual DbSet<Planet> Planets { get; set; }
         public virtual DbSet<Race> Races { get; set; }
+        public virtual DbSet<Subrace> Subraces { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Universe> Universes { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }

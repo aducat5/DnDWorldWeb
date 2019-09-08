@@ -7,7 +7,7 @@ namespace DnDWorld.BLL.Repositories
 {
     public class UniverseRepo
     {
-        DnDWorldDBEntities db = DBTools.DBInstance;
+        DNDWDBEntities db = DBTools.DBInstance;
         public bool DoesUniverseExists(string universeName)
         {
             universeName = universeName.ClearText();

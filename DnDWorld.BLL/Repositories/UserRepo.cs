@@ -7,7 +7,7 @@ namespace DnDWorld.BLL.Repositories
 {
     public class UserRepo
     {
-        private static DnDWorldDBEntities db = DBTools.DBInstance;
+        private static DNDWDBEntities db = DBTools.DBInstance;
         public bool CheckUser(int id) => db.Users.Any(u => u.UserID == id);
         public bool CheckUser(string email) => db.Users.Any(u => u.Email == email);
         public User GetUser(int id)
@@ -66,7 +66,6 @@ namespace DnDWorld.BLL.Repositories
                 p.GrantedUserID == userID
             );
         }
-
         public bool DeleteUser(int id, out string islemSonucu)
         {
             bool sonuc = false;

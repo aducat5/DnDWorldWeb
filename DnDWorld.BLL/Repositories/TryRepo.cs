@@ -10,7 +10,7 @@ namespace DnDWorld.BLL.Repositories
 {
     public class TryRepo
     {
-        DnDWorldDBEntities db = DBTools.DBInstance;
+        DNDWDBEntities db = DBTools.DBInstance;
         public bool InsertData(string data)
         {
             db.AuthTypes.Add(new AuthType() { AuthTypeName = data });

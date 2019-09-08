@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DnDWorldDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DNDWDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AuthTypes">
           <Key>
             <PropertyRef Name="AuthTypeID" />
@@ -180,6 +180,16 @@
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="PicturePath" Type="text" />
         </EntityType>
+        <EntityType Name="Subraces">
+          <Key>
+            <PropertyRef Name="SubraceID" />
+          </Key>
+          <Property Name="SubraceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaceID" Type="int" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PicturePath" Type="text" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -317,12 +327,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Characters_Races">
-          <End Role="Races" Type="Self.Races" Multiplicity="1" />
+        <Association Name="FK_Characters_Subraces">
+          <End Role="Subraces" Type="Self.Subraces" Multiplicity="1" />
           <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="RaceID" />
+            <Principal Role="Subraces">
+              <PropertyRef Name="SubraceID" />
             </Principal>
             <Dependent Role="Characters">
               <PropertyRef Name="RaceID" />
@@ -461,6 +471,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subraces_Races">
+          <End Role="Races" Type="Self.Races" Multiplicity="1" />
+          <End Role="Subraces" Type="Self.Subraces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="RaceID" />
+            </Principal>
+            <Dependent Role="Subraces">
+              <PropertyRef Name="RaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Universes_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Universes" Type="Self.Universes" Multiplicity="*" />
@@ -497,7 +519,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DnDWorldDBModelStoreContainer">
+        <EntityContainer Name="DNDWDBModelStoreContainer">
           <EntitySet Name="AuthTypes" EntityType="Self.AuthTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterClasses" EntityType="Self.CharacterClasses" Schema="dbo" store:Type="Tables" />
@@ -517,6 +539,7 @@
           <EntitySet Name="PermissionTypes" EntityType="Self.PermissionTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Planets" EntityType="Self.Planets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Races" EntityType="Self.Races" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subraces" EntityType="Self.Subraces" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universes" EntityType="Self.Universes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogins" Schema="dbo" store:Type="Tables" />
@@ -553,8 +576,8 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="CharacterItems" EntitySet="CharacterItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_Characters_Races" Association="Self.FK_Characters_Races">
-            <End Role="Races" EntitySet="Races" />
+          <AssociationSet Name="FK_Characters_Subraces" Association="Self.FK_Characters_Subraces">
+            <End Role="Subraces" EntitySet="Subraces" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
@@ -601,6 +624,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Planets" EntitySet="Planets" />
           </AssociationSet>
+          <AssociationSet Name="FK_Subraces_Races" Association="Self.FK_Subraces_Races">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Subraces" EntitySet="Subraces" />
+          </AssociationSet>
           <AssociationSet Name="FK_Universes_Users" Association="Self.FK_Universes_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Universes" EntitySet="Universes" />
@@ -618,7 +645,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DnDWorldDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DNDWDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AuthType">
           <Key>
             <PropertyRef Name="AuthTypeID" />
@@ -691,7 +718,7 @@
           <NavigationProperty Name="CharacterClasses" Relationship="Self.FK_CharacterClasses_Characters" FromRole="Characters" ToRole="CharacterClasses" />
           <NavigationProperty Name="CharacterDescriptions" Relationship="Self.FK_CharacterDescriptions_Characters" FromRole="Characters" ToRole="CharacterDescriptions" />
           <NavigationProperty Name="CharacterItems" Relationship="Self.FK_CharacterItems_Characters" FromRole="Characters" ToRole="CharacterItems" />
-          <NavigationProperty Name="Race" Relationship="Self.FK_Characters_Races" FromRole="Characters" ToRole="Races" />
+          <NavigationProperty Name="Subrace" Relationship="Self.FK_Characters_Subraces" FromRole="Characters" ToRole="Subraces" />
           <NavigationProperty Name="User" Relationship="Self.FK_Characters_Users" FromRole="Characters" ToRole="Users" />
         </EntityType>
         <EntityType Name="Class">
@@ -826,7 +853,19 @@
           <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Races" FromRole="Races" ToRole="Characters" />
+          <NavigationProperty Name="Subraces" Relationship="Self.FK_Subraces_Races" FromRole="Races" ToRole="Subraces" />
+        </EntityType>
+        <EntityType Name="Subrace">
+          <Key>
+            <PropertyRef Name="SubraceID" />
+          </Key>
+          <Property Name="SubraceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RaceID" Type="Int32" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Subraces" FromRole="Subraces" ToRole="Characters" />
+          <NavigationProperty Name="Race" Relationship="Self.FK_Subraces_Races" FromRole="Subraces" ToRole="Races" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -989,12 +1028,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Characters_Races">
-          <End Role="Races" Type="Self.Race" Multiplicity="1" />
+        <Association Name="FK_Characters_Subraces">
+          <End Role="Subraces" Type="Self.Subrace" Multiplicity="1" />
           <End Role="Characters" Type="Self.Character" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Races">
-              <PropertyRef Name="RaceID" />
+            <Principal Role="Subraces">
+              <PropertyRef Name="SubraceID" />
             </Principal>
             <Dependent Role="Characters">
               <PropertyRef Name="RaceID" />
@@ -1133,6 +1172,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subraces_Races">
+          <End Role="Races" Type="Self.Race" Multiplicity="1" />
+          <End Role="Subraces" Type="Self.Subrace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Races">
+              <PropertyRef Name="RaceID" />
+            </Principal>
+            <Dependent Role="Subraces">
+              <PropertyRef Name="RaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Universes_Users">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="Universes" Type="Self.Universe" Multiplicity="*" />
@@ -1157,7 +1208,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DnDWorldDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DNDWDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AuthTypes" EntityType="Self.AuthType" />
           <EntitySet Name="Campaigns" EntityType="Self.Campaign" />
           <EntitySet Name="CharacterClasses" EntityType="Self.CharacterClass" />
@@ -1177,6 +1228,7 @@
           <EntitySet Name="PermissionTypes" EntityType="Self.PermissionType" />
           <EntitySet Name="Planets" EntityType="Self.Planet" />
           <EntitySet Name="Races" EntityType="Self.Race" />
+          <EntitySet Name="Subraces" EntityType="Self.Subrace" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Universes" EntityType="Self.Universe" />
           <EntitySet Name="UserLogins" EntityType="Self.UserLogin" />
@@ -1217,8 +1269,8 @@
             <End Role="Items" EntitySet="Items" />
             <End Role="CharacterItems" EntitySet="CharacterItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_Characters_Races" Association="Self.FK_Characters_Races">
-            <End Role="Races" EntitySet="Races" />
+          <AssociationSet Name="FK_Characters_Subraces" Association="Self.FK_Characters_Subraces">
+            <End Role="Subraces" EntitySet="Subraces" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Users" Association="Self.FK_Characters_Users">
@@ -1265,6 +1317,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Planets" EntitySet="Planets" />
           </AssociationSet>
+          <AssociationSet Name="FK_Subraces_Races" Association="Self.FK_Subraces_Races">
+            <End Role="Races" EntitySet="Races" />
+            <End Role="Subraces" EntitySet="Subraces" />
+          </AssociationSet>
           <AssociationSet Name="FK_Universes_Users" Association="Self.FK_Universes_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Universes" EntitySet="Universes" />
@@ -1279,9 +1335,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DnDWorldDBModelStoreContainer" CdmEntityContainer="DnDWorldDBEntities">
+        <EntityContainerMapping StorageEntityContainer="DNDWDBModelStoreContainer" CdmEntityContainer="DNDWDBEntities">
           <EntitySetMapping Name="AuthTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.AuthType">
+            <EntityTypeMapping TypeName="DNDWDBModel.AuthType">
               <MappingFragment StoreEntitySet="AuthTypes">
                 <ScalarProperty Name="AuthTypeID" ColumnName="AuthTypeID" />
                 <ScalarProperty Name="AuthTypeName" ColumnName="AuthTypeName" />
@@ -1289,7 +1345,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Campaigns">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Campaign">
+            <EntityTypeMapping TypeName="DNDWDBModel.Campaign">
               <MappingFragment StoreEntitySet="Campaigns">
                 <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
@@ -1304,7 +1360,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CharacterClasses">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.CharacterClass">
+            <EntityTypeMapping TypeName="DNDWDBModel.CharacterClass">
               <MappingFragment StoreEntitySet="CharacterClasses">
                 <ScalarProperty Name="CharacterClassID" ColumnName="CharacterClassID" />
                 <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -1313,7 +1369,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CharacterDescriptions">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.CharacterDescription">
+            <EntityTypeMapping TypeName="DNDWDBModel.CharacterDescription">
               <MappingFragment StoreEntitySet="CharacterDescriptions">
                 <ScalarProperty Name="CharacterDescriptionID" ColumnName="CharacterDescriptionID" />
                 <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -1322,7 +1378,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CharacterItems">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.CharacterItem">
+            <EntityTypeMapping TypeName="DNDWDBModel.CharacterItem">
               <MappingFragment StoreEntitySet="CharacterItems">
                 <ScalarProperty Name="CharacterItemID" ColumnName="CharacterItemID" />
                 <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -1332,7 +1388,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Characters">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Character">
+            <EntityTypeMapping TypeName="DNDWDBModel.Character">
               <MappingFragment StoreEntitySet="Characters">
                 <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
@@ -1348,7 +1404,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Classes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Class">
+            <EntityTypeMapping TypeName="DNDWDBModel.Class">
               <MappingFragment StoreEntitySet="Classes">
                 <ScalarProperty Name="ClassID" ColumnName="ClassID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
@@ -1358,7 +1414,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ContentTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.ContentType">
+            <EntityTypeMapping TypeName="DNDWDBModel.ContentType">
               <MappingFragment StoreEntitySet="ContentTypes">
                 <ScalarProperty Name="ContentTypeID" ColumnName="ContentTypeID" />
                 <ScalarProperty Name="ContentType1" ColumnName="ContentType" />
@@ -1366,7 +1422,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Descriptions">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Description">
+            <EntityTypeMapping TypeName="DNDWDBModel.Description">
               <MappingFragment StoreEntitySet="Descriptions">
                 <ScalarProperty Name="DescriptionID" ColumnName="DescriptionID" />
                 <ScalarProperty Name="DescriptionTypeID" ColumnName="DescriptionTypeID" />
@@ -1375,7 +1431,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DescriptionTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.DescriptionType">
+            <EntityTypeMapping TypeName="DNDWDBModel.DescriptionType">
               <MappingFragment StoreEntitySet="DescriptionTypes">
                 <ScalarProperty Name="DescriptionTypeID" ColumnName="DescriptionTypeID" />
                 <ScalarProperty Name="DescriptionTypeName" ColumnName="DescriptionTypeName" />
@@ -1383,7 +1439,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EventLogs">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.EventLog">
+            <EntityTypeMapping TypeName="DNDWDBModel.EventLog">
               <MappingFragment StoreEntitySet="EventLogs">
                 <ScalarProperty Name="LogID" ColumnName="LogID" />
                 <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
@@ -1395,7 +1451,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Items">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Item">
+            <EntityTypeMapping TypeName="DNDWDBModel.Item">
               <MappingFragment StoreEntitySet="Items">
                 <ScalarProperty Name="ItemID" ColumnName="ItemID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
@@ -1405,7 +1461,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LogTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.LogType">
+            <EntityTypeMapping TypeName="DNDWDBModel.LogType">
               <MappingFragment StoreEntitySet="LogTypes">
                 <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
                 <ScalarProperty Name="LogTypeName" ColumnName="LogTypeName" />
@@ -1413,7 +1469,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lores">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Lore">
+            <EntityTypeMapping TypeName="DNDWDBModel.Lore">
               <MappingFragment StoreEntitySet="Lores">
                 <ScalarProperty Name="LoreID" ColumnName="LoreID" />
                 <ScalarProperty Name="LoreTypeID" ColumnName="LoreTypeID" />
@@ -1425,7 +1481,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LoreTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.LoreType">
+            <EntityTypeMapping TypeName="DNDWDBModel.LoreType">
               <MappingFragment StoreEntitySet="LoreTypes">
                 <ScalarProperty Name="LoreTypeID" ColumnName="LoreTypeID" />
                 <ScalarProperty Name="LoreTypeName" ColumnName="LoreTypeName" />
@@ -1434,7 +1490,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Permissions">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Permission">
+            <EntityTypeMapping TypeName="DNDWDBModel.Permission">
               <MappingFragment StoreEntitySet="Permissions">
                 <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
                 <ScalarProperty Name="PermissionTypeID" ColumnName="PermissionTypeID" />
@@ -1446,7 +1502,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PermissionTypes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.PermissionType">
+            <EntityTypeMapping TypeName="DNDWDBModel.PermissionType">
               <MappingFragment StoreEntitySet="PermissionTypes">
                 <ScalarProperty Name="PermissionTypeID" ColumnName="PermissionTypeID" />
                 <ScalarProperty Name="PermissionType1" ColumnName="PermissionType" />
@@ -1454,7 +1510,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Planets">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Planet">
+            <EntityTypeMapping TypeName="DNDWDBModel.Planet">
               <MappingFragment StoreEntitySet="Planets">
                 <ScalarProperty Name="PlanetID" ColumnName="PlanetID" />
                 <ScalarProperty Name="UniverseID" ColumnName="UniverseID" />
@@ -1465,7 +1521,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Races">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Race">
+            <EntityTypeMapping TypeName="DNDWDBModel.Race">
               <MappingFragment StoreEntitySet="Races">
                 <ScalarProperty Name="RaceID" ColumnName="RaceID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
@@ -1474,8 +1530,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Subraces">
+            <EntityTypeMapping TypeName="DNDWDBModel.Subrace">
+              <MappingFragment StoreEntitySet="Subraces">
+                <ScalarProperty Name="SubraceID" ColumnName="SubraceID" />
+                <ScalarProperty Name="RaceID" ColumnName="RaceID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="PicturePath" ColumnName="PicturePath" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.sysdiagram">
+            <EntityTypeMapping TypeName="DNDWDBModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1486,7 +1553,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Universes">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.Universe">
+            <EntityTypeMapping TypeName="DNDWDBModel.Universe">
               <MappingFragment StoreEntitySet="Universes">
                 <ScalarProperty Name="UniverseID" ColumnName="UniverseID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
@@ -1496,7 +1563,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserLogins">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.UserLogin">
+            <EntityTypeMapping TypeName="DNDWDBModel.UserLogin">
               <MappingFragment StoreEntitySet="UserLogins">
                 <ScalarProperty Name="UserLoginID" ColumnName="UserLoginID" />
                 <ScalarProperty Name="AuthTypeID" ColumnName="AuthTypeID" />
@@ -1506,7 +1573,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="DnDWorldDBModel.User">
+            <EntityTypeMapping TypeName="DNDWDBModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />

@@ -10,7 +10,7 @@ namespace DnDWorld.BLL.Repositories
 {
     public class PlanetRepo
     {
-        DnDWorldDBEntities db = DBTools.DBInstance;
+        DNDWDBEntities db = DBTools.DBInstance;
         public bool DoesPlanetExists(int universeID, string planetName)
         {
             planetName = planetName.ClearText();
