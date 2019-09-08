@@ -126,9 +126,6 @@
     <Compile Include="Subrace.cs">
       <DependentUpon>DNDWDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Subrace.cs">
-      <DependentUpon>DnDWorldDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>DNDWDB.tt</DependentUpon>
     </Compile>
