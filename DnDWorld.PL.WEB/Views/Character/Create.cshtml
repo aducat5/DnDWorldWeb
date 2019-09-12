@@ -149,7 +149,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-12">
-                                    <h3>Karakter Bilgileri</h3>
+                                    <h3>Irk Seçimi</h3>
                                 </div>
                             </div>
                             <hr class="bg-white" />
@@ -206,6 +206,55 @@
                             </a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Sınıf Seçimi</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-street-view fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-2">
+                                    <h4 style="margin-top:10px; margin-left:-18px;">Sınıf</h4>
+                                </div>
+                                <div class="col-9">
+                                    <select onchange="LoadClassInfo()" required name="classID" class="wide" id="classList"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 style="margin-top:10px;">Açıklama</h4>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="classDescriptionBox"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-4">
+                            <img id="classPic" class="mx-auto d-block" src="~/Content/img/race/def.png" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row justify-content-center">
+                        <div class="col-1">
+                            <a class="">
+                                <em class="fa fa-check-circle fa-4x text-danger"></em>
+                            </a>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -217,94 +266,6 @@
         $publicIcon = $("#publicSwitchIcon");
         $publicSwitch = $("#publicSwitch");
         $publicLabel = $("#publicSwitchLabel");
-
-        $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
-
-        $publicSwitch.on("click", function () {
-            if ($publicIcon.hasClass("fa-lock")) {
-                $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
-                $publicLabel.text("Herkese Açık");
-                $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
-            } else {
-                $publicIcon.removeClass("fa-globe-asia").addClass("fa-lock");
-                $tooltip = '<div class="alert alert-info">Bu evreninizin size özel olacağı anlamına gelir. Yalnızca siz görür ve genişletirsiniz.</div > ';
-                $publicLabel.text("Özel Evren");
-            }
-        });
-
-        $publicIcon.hover(function () {
-            $("#toolTipContainer").append($tooltip);
-        }, function () {
-            $("#toolTipContainer").html("");
-        });
-
-        //LoadUniverses
-        $.ajax({
-            url: "@Url.Action("GetExtendableUniverses", "Universe")",
-            type: "GET",
-            success: function (data) {
-                $.each(data, function (index) {
-                    $opt = "<option value='" + data[index].UniverseID + "'>" + data[index].Fullname + "</option>";
-                    $('#universeList').append($opt);
-                    $('#universeList').niceSelect('update');
-                });
-                LoadPlanets();
-            }
-        });
-
-        //LoadRaces
-        $.ajax({
-            url: "@Url.Action("GetRaces", "Race")",
-            type: "GET",
-            success: function (data) {
-                $.each(data, function (index) {
-                    $opt = "<option value='" + data[index].RaceID + "'>" + data[index].Fullname + "</option>";
-                    $('#raceList').append($opt);
-                    $('#raceList').niceSelect('update');
-                });
-                LoadSubraces();
-            }
-        });
-        
-
-        function LoadPlanets() {
-            var uniID = $('#universeList').val();
-            $.ajax({
-                url: "@Url.Action("GetPlanets", "Planet")?universeID=" + uniID,
-                type: "GET",
-                success: function (data) {
-                    $('#planetList').empty();
-
-                    if (data.length > 0) {
-                        $.each(data, function (index) {
-                            $opt = "<option value='" + data[index].PlanetID + "'>" + data[index].Fullname + "</option>";
-                            $('#planetList').append($opt);
-                            $('#planetList').removeAttr("disabled");
-                        });
-                    } else {
-                        $('#planetList').attr("disabled", "true");
-                    }
-                    
-                    $opt = "<option value='0'>Evren Kaşifi</option>";
-                    $('#planetList').append($opt);
-                    $('#planetList').niceSelect('update');
-                }
-            });
-        }
-
-        function RangeLabelSet() {
-            $("#expLabel").text($("#expRange").val());
-        }
-
-        function LevelSet() {
-            var level = $("#level").val();
-
-            $("#expRange").attr("min", levelBorders[level - 1]);
-            $("#expRange").attr("max", levelBorders[level] - 1);
-            
-            RangeLabelSet();
-        }
-
         var levelBorders = [
             0,
             300,
@@ -327,10 +288,75 @@
             355000
         ];
         var subraces = [];
+        var classes = [];
 
-        LevelSet();
+        function LoadUniverses() {
+            $.ajax({
+                url: "@Url.Action("GetExtendableUniverses", "Universe")",
+                type: "GET",
+                success: function (data) {
+                    $.each(data, function (index) {
+                        $opt = "<option value='" + data[index].UniverseID + "'>" + data[index].Fullname + "</option>";
+                        $('#universeList').append($opt);
+                        $('#universeList').niceSelect('update');
+                    });
+                    LoadPlanets();
+                }
+            });
+        }
 
-        function LoadSubraces() {            
+        function LoadRaces() {
+            $.ajax({
+                url: "@Url.Action("GetRaces", "Race")",
+                type: "GET",
+                success: function (data) {
+                    $.each(data, function (index) {
+                        $opt = "<option value='" + data[index].RaceID + "'>" + data[index].Fullname + "</option>";
+                        $('#raceList').append($opt);
+                        $('#raceList').niceSelect('update');
+                    });
+                    LoadSubraces();
+                }
+            });
+        }
+
+        function LoadPlanets() {
+            var uniID = $('#universeList').val();
+            $.ajax({
+                url: "@Url.Action("GetPlanets", "Planet")?universeID=" + uniID,
+                type: "GET",
+                success: function (data) {
+                    $('#planetList').empty();
+
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            $opt = "<option value='" + data[index].PlanetID + "'>" + data[index].Fullname + "</option>";
+                            $('#planetList').append($opt);
+                            $('#planetList').removeAttr("disabled");
+                        });
+                    } else {
+                        $('#planetList').attr("disabled", "true");
+                    }
+
+                    $opt = "<option value='0'>Evren Kaşifi</option>";
+                    $('#planetList').append($opt);
+                    $('#planetList').niceSelect('update');
+                }
+            });
+        }
+
+        function RangeLabelSet() {$("#expLabel").text($("#expRange").val());}
+
+        function LevelSet() {
+            var level = $("#level").val();
+
+            $("#expRange").attr("min", levelBorders[level - 1]);
+            $("#expRange").attr("max", levelBorders[level] - 1);
+
+            RangeLabelSet();
+        }
+
+        function LoadSubraces() {
             var raceID = $('#raceList').val();
             $.ajax({
                 url: "@Url.Action("GetSubraces", "Race")?raceID=" + raceID,
@@ -343,8 +369,6 @@
                             $('#subraceList').append($opt);
                             $('#subraceList').removeAttr("disabled");
                         });
-                    } else {
-                        $('#planetList').attr("disabled", "true");
                     }
                     subraces = data;
 
@@ -357,14 +381,55 @@
         }
 
         function LoadSubraceInfo() {
-            
             //updateDescriptionBox
             $("#descriptionBox").text(subraces[$('#subraceList')[0].selectedIndex].Description);
             //updatePictureBox
-            //$("#subracePic").attr("src", subraces[$('#subraceList')[0].selectedIndex].PicturePath);
-
+            $("#subracePic").css("background-image", subraces[$('#subraceList')[0].selectedIndex].PicturePath);
         }
 
+        function LoadClasses() {
+            $.ajax({
+                url: "@Url.Action("GetClasses", "Class")",
+                type: "GET",
+                success: function (data) {
+                    $.each(data, function (index) {
+                        $opt = "<option value='" + data[index].ClassID + "'>" + data[index].Fullname + "</option>";
+                        $('#classList').append($opt);
+                        $('#classList').niceSelect('update');
+                    });
 
+                    classes = data;
+                    LoadClassInfo();
+                }
+            });
+        }
+
+        function LoadClassInfo() {
+            //updateDescriptionBox
+            $("#classDescriptionBox").text(classes[$('#classList')[0].selectedIndex].Description);
+            //updatePictureBox
+            $("#classPic").css("background-image", classes[$('#classList')[0].selectedIndex].PicturePath);
+        }
+        
+        $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+
+        $publicSwitch.on("click", function () {
+            if ($publicIcon.hasClass("fa-lock")) {
+                $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
+                $publicLabel.text("Herkese Açık");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+            } else {
+                $publicIcon.removeClass("fa-globe-asia").addClass("fa-lock");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin size özel olacağı anlamına gelir. Yalnızca siz görür ve genişletirsiniz.</div > ';
+                $publicLabel.text("Özel Evren");
+            }
+        });
+
+        $publicIcon.hover(function () { $("#toolTipContainer").append($tooltip); }, function () { $("#toolTipContainer").html(""); });
+
+        LoadUniverses();
+        LoadRaces();
+        LoadClasses();
+        LevelSet();
     </script>
 }
