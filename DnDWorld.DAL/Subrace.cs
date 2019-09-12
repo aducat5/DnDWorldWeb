@@ -23,6 +23,7 @@ namespace DnDWorld.DAL
         public int SubraceID { get; set; }
         public int RaceID { get; set; }
         public string Fullname { get; set; }
+        public string Description { get; set; }
         public string PicturePath { get; set; }
         public string Source { get; set; }
     

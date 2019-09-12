@@ -187,6 +187,7 @@
           <Property Name="SubraceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RaceID" Type="int" Nullable="false" />
           <Property Name="Fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="text" />
           <Property Name="PicturePath" Type="text" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -862,6 +863,7 @@
           <Property Name="SubraceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RaceID" Type="Int32" Nullable="false" />
           <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Subraces" FromRole="Subraces" ToRole="Characters" />
@@ -1536,6 +1538,7 @@
                 <ScalarProperty Name="SubraceID" ColumnName="SubraceID" />
                 <ScalarProperty Name="RaceID" ColumnName="RaceID" />
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PicturePath" ColumnName="PicturePath" />
                 <ScalarProperty Name="Source" ColumnName="Source" />
               </MappingFragment>

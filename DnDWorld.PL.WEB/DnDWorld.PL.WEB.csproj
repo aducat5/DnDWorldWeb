@@ -130,6 +130,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlanetController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\RaceController.cs" />
     <Compile Include="Controllers\SignController.cs" />
     <Compile Include="Controllers\UniverseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -451,6 +452,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Race\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

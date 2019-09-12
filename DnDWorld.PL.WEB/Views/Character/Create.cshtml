@@ -98,7 +98,7 @@
                                 <div class="col-8">
                                     <div class="row">
                                         <div class="col-9">
-                                            <input type="range" min="0" max="10000" name="experience" onchange="RangeLabelSet()" id="expRange" class="custom-range" />
+                                            <input type="range" min="0" max="299" name="experience" onchange="RangeLabelSet()" id="expRange" class="custom-range" />
                                         </div>
                                         <div class="col-3">
                                             <h4 id="expLabel"></h4>
@@ -137,11 +137,73 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-1">
-                            <button class="btn btn-danger" type="submit">
-                                Oluştur
-                            </button>
+                            <a class="">
+                                <em class="fa fa-arrow-alt-circle-down fa-4x text-danger"></em>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Karakter Bilgileri</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-street-view fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-2">
+                                    <h4 style="margin-top:10px; margin-left:-18px;">Irk</h4>
+                                </div>
+                                <div class="col-9">
+                                    <select required name="raceID" onchange="LoadSubraces()" class="wide" id="raceList"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-share-alt fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-2">
+                                    <h4 style="margin-top:10px; margin-left:-18px;">Alt Irk</h4>
+                                </div>
+                                <div class="col-9">
+                                    <select required name="subraceID" onchange="LoadSubraceInfo()" class="wide" id="subraceList"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 style="margin-top:10px;">Açıklama</h4>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-12">
+                                    <p id="descriptionBox"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-4">
+                            <img id="subracePic" class="mx-auto d-block" src="~/Content/img/race/def.png" />
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row justify-content-center">
+                        <div class="col-1">
+                            <a class="">
+                                <em class="fa fa-arrow-alt-circle-down fa-4x text-danger"></em>
+                            </a>
                         </div>
                     </div>
                 }
@@ -174,8 +236,9 @@
             $("#toolTipContainer").append($tooltip);
         }, function () {
             $("#toolTipContainer").html("");
-            });
+        });
 
+        //LoadUniverses
         $.ajax({
             url: "@Url.Action("GetExtendableUniverses", "Universe")",
             type: "GET",
@@ -188,6 +251,21 @@
                 LoadPlanets();
             }
         });
+
+        //LoadRaces
+        $.ajax({
+            url: "@Url.Action("GetRaces", "Race")",
+            type: "GET",
+            success: function (data) {
+                $.each(data, function (index) {
+                    $opt = "<option value='" + data[index].RaceID + "'>" + data[index].Fullname + "</option>";
+                    $('#raceList').append($opt);
+                    $('#raceList').niceSelect('update');
+                });
+                LoadSubraces();
+            }
+        });
+        
 
         function LoadPlanets() {
             var uniID = $('#universeList').val();
@@ -248,7 +326,45 @@
             305000,
             355000
         ];
+        var subraces = [];
 
         LevelSet();
+
+        function LoadSubraces() {            
+            var raceID = $('#raceList').val();
+            $.ajax({
+                url: "@Url.Action("GetSubraces", "Race")?raceID=" + raceID,
+                type: "GET",
+                success: function (data) {
+                    $('#subraceList').empty();
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            $opt = "<option value='" + data[index].SubraceID + "'>" + data[index].Fullname + "</option>";
+                            $('#subraceList').append($opt);
+                            $('#subraceList').removeAttr("disabled");
+                        });
+                    } else {
+                        $('#planetList').attr("disabled", "true");
+                    }
+                    subraces = data;
+
+                    //updateSelectBox
+                    $('#subraceList').niceSelect('update');
+
+                    LoadSubraceInfo();
+                }
+            });
+        }
+
+        function LoadSubraceInfo() {
+            
+            //updateDescriptionBox
+            $("#descriptionBox").text(subraces[$('#subraceList')[0].selectedIndex].Description);
+            //updatePictureBox
+            //$("#subracePic").attr("src", subraces[$('#subraceList')[0].selectedIndex].PicturePath);
+
+        }
+
+
     </script>
 }
