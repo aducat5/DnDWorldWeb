@@ -155,6 +155,7 @@
     <Content Include="Content\css\magnific-popup.css" />
     <Content Include="Content\css\nice-select.css" />
     <Content Include="Content\css\owl.carousel.min.css" />
+    <Content Include="Content\css\select2-bootstrap.css" />
     <Content Include="Content\css\slick.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\swiper.min.css" />

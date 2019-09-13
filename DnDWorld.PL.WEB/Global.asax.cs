@@ -25,6 +25,7 @@ namespace DnDWorld.PL.WEB
         {
             var exception = Server.GetLastError();
             int logTypeID = LogTypes.Error.ToInt();
+            bool logNeeded = true;
             if (exception != null)
             {
                 EventLog errorLog = new EventLog()
@@ -35,23 +36,28 @@ namespace DnDWorld.PL.WEB
                     Detail = exception.InnerException + " - " + exception.StackTrace,
                     MachineName = Server.MachineName
                 };
-                Logger.Log(errorLog);
+                
 
                 switch (exception.GetType().Name)
                 {
                     case "PageNotFoundException":
+                        logNeeded = false;
                         Response.Redirect("/Home/NotFound/");
                         break;
                     case "LoginRequiredException":
+                        logNeeded = false;
                         Response.Redirect("/Sign/SignIn/");
                         break;
                     case "LogoutRequiredException":
+                        logNeeded = false;
                         Response.Redirect("/Home/Index/");
                         break;
                     default:
                         Response.Redirect("/Home/NotFound/");
                         break;
                 }
+
+                if(logNeeded) Logger.Log(errorLog); ;
             }
             else
             {
@@ -65,6 +71,6 @@ namespace DnDWorld.PL.WEB
                 };
                 Response.Redirect("/Home/NotFound/");
             }
-            }
+        }
     }
 }

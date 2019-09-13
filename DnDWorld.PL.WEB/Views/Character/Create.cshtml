@@ -46,7 +46,7 @@
                                     <h4 style="margin-top:10px">Evren</h4>
                                 </div>
                                 <div class="col-8">
-                                    <select required name="universeID" onchange="LoadPlanets()" class="wide" id="universeList">
+                                    <select required name="universeID" onchange="LoadPlanets()" class="form-control form-control-lg" id="universeList">
                                     </select>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                     <h4 style="margin-top:10px">Dünya</h4>
                                 </div>
                                 <div class="col-8">
-                                    <select required name="planetID" class="wide" id="planetList">
+                                    <select required name="planetID" class="form-control" id="planetList">
                                     </select>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                                     <h4 style="margin-top:10px; margin-left:-18px;">Irk</h4>
                                 </div>
                                 <div class="col-9">
-                                    <select required name="raceID" onchange="LoadSubraces()" class="wide" id="raceList"></select>
+                                    <select required name="raceID" onchange="LoadSubraces()" class="form-control" id="raceList"></select>
                                 </div>
                             </div>
                             <br />
@@ -177,7 +177,7 @@
                                     <h4 style="margin-top:10px; margin-left:-18px;">Alt Irk</h4>
                                 </div>
                                 <div class="col-9">
-                                    <select required name="subraceID" onchange="LoadSubraceInfo()" class="wide" id="subraceList"></select>
+                                    <select required name="subraceID" onchange="LoadSubraceInfo()" class="form-control" id="subraceList"></select>
                                 </div>
                             </div>
                             <br />
@@ -210,7 +210,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-12">
-                                    <h3>Sınıf Seçimi</h3>
+                                    <h3>Sınıf Seçimi </h3><p>Aşağıdaki artı tuşu ile çoklu sınıflama yapabilirsiniz</p>
                                 </div>
                             </div>
                             <hr class="bg-white" />
@@ -218,15 +218,11 @@
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <div class="row">
-                                <div class="col-1" style="margin-top:6px">
-                                    <em class="fa fa-street-view fa-2x text-danger"></em>
-                                </div>
-                                <div class="col-2">
-                                    <h4 style="margin-top:10px; margin-left:-18px;">Sınıf</h4>
-                                </div>
-                                <div class="col-9">
-                                    <select onchange="LoadClassInfo()" required name="classID" class="wide" id="classList"></select>
+                            <div id="classListContainer"></div>
+                            <br />
+                            <div class="row justify-content-end">
+                                <div class="col-1">
+                                    <a onclick="AddClassList()"><em class="fa fa-plus-circle fa-2x text-danger"></em></a>
                                 </div>
                             </div>
                             <br />
@@ -250,9 +246,7 @@
                     <hr />
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <a class="">
-                                <em class="fa fa-check-circle fa-4x text-danger"></em>
-                            </a>
+                            <em class="fa fa-check-circle fa-4x text-danger"></em>
                         </div>
                     </div>
                 }
@@ -266,6 +260,7 @@
         $publicIcon = $("#publicSwitchIcon");
         $publicSwitch = $("#publicSwitch");
         $publicLabel = $("#publicSwitchLabel");
+
         var levelBorders = [
             0,
             300,
@@ -289,6 +284,7 @@
         ];
         var subraces = [];
         var classes = [];
+        var multiClassLevel = 0;
 
         function LoadUniverses() {
             $.ajax({
@@ -298,7 +294,6 @@
                     $.each(data, function (index) {
                         $opt = "<option value='" + data[index].UniverseID + "'>" + data[index].Fullname + "</option>";
                         $('#universeList').append($opt);
-                        $('#universeList').niceSelect('update');
                     });
                     LoadPlanets();
                 }
@@ -313,7 +308,6 @@
                     $.each(data, function (index) {
                         $opt = "<option value='" + data[index].RaceID + "'>" + data[index].Fullname + "</option>";
                         $('#raceList').append($opt);
-                        $('#raceList').niceSelect('update');
                     });
                     LoadSubraces();
                 }
@@ -340,7 +334,6 @@
 
                     $opt = "<option value='0'>Evren Kaşifi</option>";
                     $('#planetList').append($opt);
-                    $('#planetList').niceSelect('update');
                 }
             });
         }
@@ -371,10 +364,6 @@
                         });
                     }
                     subraces = data;
-
-                    //updateSelectBox
-                    $('#subraceList').niceSelect('update');
-
                     LoadSubraceInfo();
                 }
             });
@@ -395,7 +384,6 @@
                     $.each(data, function (index) {
                         $opt = "<option value='" + data[index].ClassID + "'>" + data[index].Fullname + "</option>";
                         $('#classList').append($opt);
-                        $('#classList').niceSelect('update');
                     });
 
                     classes = data;
@@ -406,11 +394,26 @@
 
         function LoadClassInfo() {
             //updateDescriptionBox
-            $("#classDescriptionBox").text(classes[$('#classList')[0].selectedIndex].Description);
+            $("#classDescriptionBox").text(classes[$('#classList' + multiClassLevel)[0].selectedIndex].Description);
             //updatePictureBox
-            $("#classPic").css("background-image", classes[$('#classList')[0].selectedIndex].PicturePath);
+            $("#classPic").css("background-image", classes[$('#classList' + multiClassLevel)[0].selectedIndex].PicturePath);
         }
-        
+
+        function AddClassList() {
+            multiClassLevel++;
+            $("#classListContainer").append($('<br /><div class="row"><div class="col-1" style="margin-top:6px"><em class="fa fa-street-view fa-2x text-danger"></em></div><div class="col-2"><h4 style="margin-top:10px; margin-left:-18px;">Sınıf</h4></div><div class="col-9"><select onchange="LoadClassInfo()" required name="classID' + multiClassLevel + '" class="form-control" id="classList' + multiClassLevel + '"><option>selam</option></select></div></div>'));
+
+            RefreshSelect();
+        }
+
+        function RefreshSelect() { 
+            $(document).ready(function () {
+                $('select').select2({
+                    theme: "bootstrap"
+                });
+            });
+        }
+
         $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
 
         $publicSwitch.on("click", function () {
@@ -427,6 +430,7 @@
 
         $publicIcon.hover(function () { $("#toolTipContainer").append($tooltip); }, function () { $("#toolTipContainer").html(""); });
 
+        AddClassList();
         LoadUniverses();
         LoadRaces();
         LoadClasses();
