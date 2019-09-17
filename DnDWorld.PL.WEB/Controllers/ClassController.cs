@@ -24,11 +24,12 @@ namespace DnDWorld.PL.WEB.Controllers
                         Fullname = c.Fullname,
                         PicturePath = c.PicturePath,
                         ClassID = c.ClassID,
-                        Description = c.Description
+                        Description = c.Description,
+                        CharacterClasses = null
                     });
                 }
             }
-            return Json(classes, JsonRequestBehavior.AllowGet);
+            return Json(classDTO, JsonRequestBehavior.AllowGet);
         }
     }
 }

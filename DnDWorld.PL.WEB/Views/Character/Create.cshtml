@@ -81,7 +81,7 @@
                                     <em class="fa fa-chevron-circle-up fa-2x text-danger"></em>
                                 </div>
                                 <div class="col-3">
-                                    <h4 style="margin-top:10px">Deneyim Puanı</h4>
+                                    <h4 style="margin-top:10px">Seviye</h4>
                                 </div>
                                 <div class="col-8">
                                     <input onchange="LevelSet()" id="level" type="number" name="level" value="1" class="form-control" min="1" max="20" required />
@@ -98,7 +98,7 @@
                                 <div class="col-8">
                                     <div class="row">
                                         <div class="col-9">
-                                            <input type="range" min="0" max="299" name="experience" onchange="RangeLabelSet()" id="expRange" class="custom-range" />
+                                            <input type="range" min="0" max="299" name="experience" oninput="RangeLabelSet()" id="expRange" class="custom-range" />
                                         </div>
                                         <div class="col-3">
                                             <h4 id="expLabel"></h4>
@@ -246,7 +246,7 @@
                     <hr />
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <em class="fa fa-check-circle fa-4x text-danger"></em>
+                            <button type="submit"><em class="fa fa-check-circle fa-4x text-danger"></em></button>
                         </div>
                     </div>
                 }
@@ -282,6 +282,7 @@
             305000,
             355000
         ];
+
         var subraces = [];
         var classes = [];
         var multiClassLevel = 0;
@@ -345,6 +346,8 @@
 
             $("#expRange").attr("min", levelBorders[level - 1]);
             $("#expRange").attr("max", levelBorders[level] - 1);
+            $("#expRange").val(levelBorders[level - 1] + 1);
+
 
             RangeLabelSet();
         }
@@ -383,10 +386,11 @@
                 success: function (data) {
                     $.each(data, function (index) {
                         $opt = "<option value='" + data[index].ClassID + "'>" + data[index].Fullname + "</option>";
-                        $('#classList').append($opt);
-                    });
 
+                        $($('#classListContainer select')[multiClassLevel - 1]).append($opt);
+                    });
                     classes = data;
+                    console.log(classes);
                     LoadClassInfo();
                 }
             });
@@ -401,8 +405,9 @@
 
         function AddClassList() {
             multiClassLevel++;
-            $("#classListContainer").append($('<br /><div class="row"><div class="col-1" style="margin-top:6px"><em class="fa fa-street-view fa-2x text-danger"></em></div><div class="col-2"><h4 style="margin-top:10px; margin-left:-18px;">Sınıf</h4></div><div class="col-9"><select onchange="LoadClassInfo()" required name="classID' + multiClassLevel + '" class="form-control" id="classList' + multiClassLevel + '"><option>selam</option></select></div></div>'));
+            $("#classListContainer").append($('<br /><div class="row"><div class="col-1" style="margin-top:6px"><em class="fa fa-street-view fa-2x text-danger"></em></div><div class="col-2"><h4 style="margin-top:10px; margin-left:-18px;">Sınıf</h4></div><div class="col-9"><select onchange="LoadClassInfo()" required name="classID' + multiClassLevel + '" class="form-control" id="classList' + multiClassLevel + '"></select></div></div>'));
 
+            LoadClasses();
             RefreshSelect();
         }
 
@@ -415,7 +420,6 @@
         }
 
         $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
-
         $publicSwitch.on("click", function () {
             if ($publicIcon.hasClass("fa-lock")) {
                 $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
@@ -427,13 +431,13 @@
                 $publicLabel.text("Özel Evren");
             }
         });
-
         $publicIcon.hover(function () { $("#toolTipContainer").append($tooltip); }, function () { $("#toolTipContainer").html(""); });
+        //$("#expRange").on("change", function () {RangeLabelSet();});
 
         AddClassList();
         LoadUniverses();
         LoadRaces();
-        LoadClasses();
+        //LoadClasses(multiClassLevel);
         LevelSet();
     </script>
 }
