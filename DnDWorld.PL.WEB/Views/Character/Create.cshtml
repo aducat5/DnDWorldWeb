@@ -28,7 +28,7 @@
                     <h2>Yeni bir karakter oluştur</h2>
                 </div>
 
-                @using (Html.BeginForm("Create", "Character", FormMethod.Post, null))
+                @using (Html.BeginForm("Create", "Character", FormMethod.Post, new { id = "formChar" }))
                 {
                     <div class="row">
                         <div class="col-6">
@@ -139,7 +139,7 @@
                     <hr />
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <a class="">
+                            <a href="#" onclick="ScrollToNext('toNext1')" id="toNext1">
                                 <em class="fa fa-arrow-alt-circle-down fa-4x text-danger"></em>
                             </a>
                         </div>
@@ -201,7 +201,7 @@
                     <hr />
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <a class="">
+                            <a href="#" onclick="ScrollToNext('toNext2')" id="toNext2">
                                 <em class="fa fa-arrow-alt-circle-down fa-4x text-danger"></em>
                             </a>
                         </div>
@@ -246,7 +246,7 @@
                     <hr />
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <button type="submit"><em class="fa fa-check-circle fa-4x text-danger"></em></button>
+                            <a href="#" id="formSubmit"><em class="fa fa-check-circle fa-4x text-danger"></em></a>
                         </div>
                     </div>
                 }
@@ -390,7 +390,6 @@
                         $($('#classListContainer select')[multiClassLevel - 1]).append($opt);
                     });
                     classes = data;
-                    console.log(classes);
                     LoadClassInfo();
                 }
             });
@@ -419,6 +418,26 @@
             });
         }
 
+        function ScrollToNext(id) {
+            switch (id) {
+                case "toNext1":
+                    $('html, body').animate(
+                        {scrollTop: $("#toNext2").offset().top - 500},
+                        500,
+                        'linear'
+                    );
+                    break;
+                case "toNext2":
+                    $('html, body').animate(
+                        {scrollTop: $("#formSubmit").offset().top - 500},
+                        1000,
+                        'linear'
+                    );
+                    break;
+                default:
+            }
+        }
+
         $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
         $publicSwitch.on("click", function () {
             if ($publicIcon.hasClass("fa-lock")) {
@@ -432,8 +451,8 @@
             }
         });
         $publicIcon.hover(function () { $("#toolTipContainer").append($tooltip); }, function () { $("#toolTipContainer").html(""); });
-        //$("#expRange").on("change", function () {RangeLabelSet();});
-
+        $("#formSubmit").click(function () { $("#formChar").submit(); });
+        
         AddClassList();
         LoadUniverses();
         LoadRaces();
