@@ -1,0 +1,195 @@
+﻿@model Campaign
+@{
+    ViewBag.Title = "Yeni Macera";
+    User currentUser = Session["user"] as User;
+}
+
+@section pageStyles{
+
+}
+
+
+<section class="section_padding" style="background-repeat:no-repeat; background-position:right; background-image:url(/Content/img/background/campaign.png); background-size:contain" );>
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.AlertMessage != null)
+            {
+                <div class="container">
+
+                    <div class="@ViewBag.AlertClass alert-dismissible text-center">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @ViewBag.AlertMessage
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-12 align-self-center">
+                <div class="section_tittle">
+                    <h2>Yeni Bir Maceraya Atıl!</h2>
+                </div>
+
+
+                @using (Html.BeginForm("Create", "Campaign", FormMethod.Post, new { id = "formCamp" }))
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Macera Ayrıntıları</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-user-astronaut fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Evren</h4>
+                                </div>
+                                <div class="col-8">
+                                    <select required name="universeID" onchange="LoadPlanets()" class="form-control form-control-lg" id="universeList">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-globe-asia fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Dünya</h4>
+                                </div>
+                                <div class="col-8">
+                                    <select required name="planetID" class="form-control" id="planetList">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-user fa-2x text-danger"></em>
+                                </div>
+                                <div class="col-3">
+                                    <h4 style="margin-top:10px">Macera Adı</h4>
+                                </div>
+                                <div class="col-8">
+                                    <input required type="text" class="form-control" name="txtCharacterName" placeholder="ör: Yüzük Kardeşliği" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Erişim ayarları</h3>
+                                </div>
+                            </div>
+                            <hr class="bg-white" />
+                            <div class="row">
+                                <div class="col-1" style="margin-top:6px">
+                                    <em class="fa fa-globe-asia text-danger" id="publicSwitchIcon"></em>
+                                </div>
+                                <div class="col-4">
+                                    <p id="publicSwitchLabel">Herkese Açık</p>
+                                </div>
+                                <div class="col-2" style="margin-top:6px">
+                                    <div class="single-element-widget">
+                                        <div class="switch-wrap">
+                                            <div class="primary-switch">
+                                                <input type="checkbox" value="true" id="publicSwitch" name="chkIsPublic" checked>
+                                                <label for="publicSwitch"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-absolute" style="margin-top:50px" id="toolTipContainer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-1">
+                            <button class="btn btn-danger" type="submit">
+                                Oluştur
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section pageScripts{
+    <script>
+         $publicIcon = $("#publicSwitchIcon");
+        $publicSwitch = $("#publicSwitch");
+        $publicLabel = $("#publicSwitchLabel");
+
+        function LoadUniverses() {
+            $.ajax({
+                url: "@Url.Action("GetExtendableUniverses", "Universe")",
+                type: "GET",
+                success: function (data) {
+                    $.each(data, function (index) {
+                        $opt = "<option value='" + data[index].UniverseID + "'>" + data[index].Fullname + "</option>";
+                        $('#universeList').append($opt);
+                    });
+                    LoadPlanets();
+                }
+            });
+        }
+
+        function LoadPlanets() {
+            var uniID = $('#universeList').val();
+            $.ajax({
+                url: "@Url.Action("GetPlanets", "Planet")?universeID=" + uniID,
+                type: "GET",
+                success: function (data) {
+                    $('#planetList').empty();
+
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            $opt = "<option value='" + data[index].PlanetID + "'>" + data[index].Fullname + "</option>";
+                            $('#planetList').append($opt);
+                            $('#planetList').removeAttr("disabled");
+                        });
+                    } else {
+                        $('#planetList').attr("disabled", "true");
+                    }
+
+                    $opt = "<option value='0'>Evren Kaşifi</option>";
+                    $('#planetList').append($opt);
+                    
+                }
+            });
+        }
+
+        function RefreshSelect() { 
+            $(document).ready(function () {
+                $('select').select2({
+                    theme: "bootstrap"
+                });
+            });
+        }
+        
+        $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+        $publicSwitch.on("click", function () {
+            if ($publicIcon.hasClass("fa-lock")) {
+                $publicIcon.removeClass("fa-lock").addClass("fa-globe-asia");
+                $publicLabel.text("Herkese Açık");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin herkes tarafından görülebileceği ve genişlilebileceği anlamına gelir.</div> ';
+            } else {
+                $publicIcon.removeClass("fa-globe-asia").addClass("fa-lock");
+                $tooltip = '<div class="alert alert-info">Bu evreninizin size özel olacağı anlamına gelir. Yalnızca siz görür ve genişletirsiniz.</div > ';
+                $publicLabel.text("Özel Evren");
+            }
+        });
+        $publicIcon.hover(function () { $("#toolTipContainer").append($tooltip); }, function () { $("#toolTipContainer").html(""); });
+        $("#formSubmit").click(function () { $("#formChar").submit(); });
+        
+        LoadUniverses();
+    </script>
+}
