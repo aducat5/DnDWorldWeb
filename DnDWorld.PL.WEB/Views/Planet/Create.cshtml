@@ -174,5 +174,15 @@
                 async: false
             });
         };
+
+        function RefreshSelect() { 
+            $(document).ready(function () {
+                $('select').select2({
+                    theme: "bootstrap"
+                });
+            });
+        }
+
+        RefreshSelect();
     </script>
 }
