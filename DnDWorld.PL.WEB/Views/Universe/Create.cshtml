@@ -30,7 +30,7 @@
                 @using (Html.BeginForm("Create", "Universe", FormMethod.Post, null))
                 {
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="row">
                                 <div class="col-12">
                                     <h3>Evren Ayrıntıları</h3>
@@ -43,7 +43,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <hr style="margin-top: 110px" class="d-xl-none d-lg-none d-md-none" />
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="row">
                                 <div class="col-12">
                                     <h3>Erişim ayarları</h3>
@@ -87,41 +88,9 @@
         </div>
         <br /><br /><br />
         <hr class="bg-white" />
-        <h2>Daha önceki evrenlerin</h2>
-
-        @if (Model != null && Model.Count > 0)
+        @if (Model == null || Model.Count > 0)
         {
-
-            <section class="client_logo">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12">
-                            <div class="client_logo_slider owl-carousel d-flex justify-content-between">
-                                @foreach (Universe universe in Model)
-                                {
-                                    <div class="single_client_logo">
-                                        <a class="btn btn-danger" href="@Url.Action("ViewUniverse", "Universe", new { id = universe.UniverseID })">
-                                            @if (universe.IsPublic)
-                                            {
-                                                <em class="fa fa-globe-europe fa-fw"></em>
-                                            }
-                                            else
-                                            {
-                                                <em class="fa fa-lock fa-fw"></em>
-                                            }
-                                            @universe.Fullname
-                                        </a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        }
-        else
-        {
-            <p>Bakıyorum da hiçbir evren yaratmamışsın.</p>
+            <p>Bakıyorum da hiç evren yaratmamışsın.</p>
         }
     </div>
 </section>

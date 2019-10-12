@@ -401,6 +401,7 @@
     <Content Include="Content\webfonts\fa-solid-900.woff2" />
     <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\dndworld - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Natro FTP.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
