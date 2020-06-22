@@ -284,6 +284,7 @@
     <Content Include="Content\img\post\preview.png" />
     <Content Include="Content\img\pricing_bg.png" />
     <Content Include="Content\img\race\def.png" />
+    <Content Include="Content\img\rpgWorldLogo.png" />
     <Content Include="Content\img\Shape_text.png" />
     <Content Include="Content\img\war_logo_1.png" />
     <Content Include="Content\img\war_logo_2.png" />
@@ -401,6 +402,7 @@
     <Content Include="Content\webfonts\fa-solid-900.woff2" />
     <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\dndworld - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\NatroFTP.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
